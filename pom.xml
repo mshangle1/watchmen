@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ally.d3</groupId>
+    <artifactId>watchmen-1.0</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>watchmen</name>
+    <description>BDD framework for API testing</description>
+
+
+    <build>
+
+        <testResources>
+            <testResource>
+                <directory>src/main/java/com/ally/d3/watchmen/config</directory>
+            </testResource>
+        </testResources>
+
+
+        <plugins>
+
+            <!--  Compiles Java sources..-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+
+            <!--  Run the JUnit tests in an isolated classloader.-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+
+                    <!--  The test source directory containing test class sources.-->
+                    <testSourceDirectory>${basedir}/src/test/java/</testSourceDirectory>
+
+                    <!--  The directory containing generated test classes of the project being tested.-->
+                    <!--  This directory should contain tests you want to run on build-->
+                    <testClassesDirectory>${project.build.directory}/test-classes/</testClassesDirectory>
+
+                    <!--  Specify this parameter to run individual tests by file name, overriding the parameter includes and excludes-->
+
+                    <!--I will provide it from command line: mvn test  -Dtest=TestRunnerTemplate-->
+                    <!-- <test> /TestRunnerTemplate </test>-->
+
+                    <!--  Set this to "true" to cause a failure if there are no tests to run.-->
+                    <failIfNoTests>false</failIfNoTests>
+
+                    <!--  Set this to "true" to redirect the test standard output to a file (found in reportsDirectory/testName-output.txt).-->
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+
+
+                </configuration>
+
+            </plugin>
+
+            <!--  Plugin that generates test reports from Cucumber JSON files -->
+
+            <plugin>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cluecumber-report-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>reporting</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceJsonReportDirectory>${project.build.directory}/cucumber-report</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>${project.build.directory}/generated-report</generatedHtmlReportDirectory>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+
+
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-bom</artifactId>
+                <version>1.11.245</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured-common</artifactId>
+            <version>4.3.2</version>
+
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.3.2</version>
+
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>xml-path</artifactId>
+            <version>4.3.2</version>
+
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.2.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.everit.json</groupId>
+            <artifactId>org.everit.json.schema</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>12.2.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator</artifactId>
+            <version>4.3.1</version>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>4.3.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javers</groupId>
+            <artifactId>javers-core</artifactId>
+            <version>5.14.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock -->
+        <!-- Unit tests -->
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>2.27.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.2.0.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <!--aws -->
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-dynamodb</artifactId>
+            <version>1.11.935</version>
+            <exclusions>
+                <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.11.935</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>1.11.935</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-core</artifactId>
+            <version>1.11.935</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-rds</artifactId>
+            <version>1.11.935</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-ssm</artifactId>
+            <version>1.11.935</version>
+        </dependency>
+
+        <!-- PGP -->
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpg-jdk15on</artifactId>
+            <version>1.68</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.68</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.68</version>
+        </dependency>
+
+        <!-- awaitility -->
+        <dependency>
+            <groupId>com.jayway.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.bjansen</groupId>
+            <artifactId>swagger-schema-validator</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
+        <!-- Selenium -->
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.0.0-beta-1</version>
+        </dependency>
+
+
+
+    </dependencies>
+
+
+</project>
