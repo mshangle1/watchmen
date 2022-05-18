@@ -125,11 +125,6 @@
       Locate requested new_parent.node using JSON_node_path and add new node new_node.name. Set new_node.name as  a JSON tree. 
       Assign updated Json as Request payload
 ---
-      
- - **I provide body as raw XML file "filename"**
-     - Resolve all placeholders for the file name. Read file, if it exists
-       add to the request specification: body as a String
----
        
 - **I set XML body node "Xpath" to "new_value"**
     - Using  this step you can change any node of type Element or Attribute on runtime. Read request specification body, locate requested body node using Xpath. New node value (after resolving all placeholders) will replace the old value 
