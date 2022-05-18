@@ -94,7 +94,7 @@ During runtime, Watchmen transforms Gherkin steps into Java code, enabling you t
 
 ## Watchmen Philosophies   
  
-Anybody who have ever developed a complex microservices applications or moved a monolith into a microservice architecture would agree that the number of microservices they need to deal with grows dramatically.
+Anybody who have ever developed a complex microservices applications or moved a monolith into a microservice architecture can confirm that they had to deal with hundreds of small loosely coupled services.
 In result, contract testing, functional testing, integration testing, end-to-end testing in microservices architecture get very complex very fast.
 The more microservices you have, the more tests you need, more brittle and time-consuming it becomes to write, execute and maintain test set. 
 To reduce the cost of API tests creation and maintenance, Watchmen framework was created. 
