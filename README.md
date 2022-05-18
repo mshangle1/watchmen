@@ -123,6 +123,7 @@ With Watchmen framework we were able to overcome all these challenges and make t
 
 - By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
 - By using Cucumber tool based on Behavior Driven Development, Watchmen tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
+- By providing different types of reports, detailed logs and, in addition, raw request and response pairs, Watchmen makes troubleshooting and debugging easier.
 
 ---
 
