@@ -5,7 +5,7 @@
 
 ------
 
-Watchmen is an API test automation framework. It provides reusable set of Gherkin steps to express requests, main test data, assert responses,
+Watchmen is an API test automation framework. It provides reusable set of Gherkin steps to express requests, test data mining, assert responses,
 connect to data bases, and more giving you the ability to define test scenarios you want to execute.
 During runtime, Watchmen transforms Gherkin steps into Java code, enabling you to test your API
 
