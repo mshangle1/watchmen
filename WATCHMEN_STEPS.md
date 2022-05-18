@@ -402,7 +402,7 @@
       Assert ignoring case            
 ---
       
-- **I clear my previous API call"**
+- **I clear my previous API call**
     - If you chain few requests in one scenario, every next API call must start from cleaning up previous request/response. 
       
       Step executes next: 
@@ -415,7 +415,7 @@
       TestScope (Container and Json Container where we store needed data) not being cleaned up.   
 ---
       
-- **I clear my previous API call and switch Proxy"**
+- **I clear my previous API call and switch Proxy**
     - If you chain few requests in one scenario, every next API call must start from cleaning up previous request/response. 
       If different requests requiring Proxy on/off use this step to switch. 
       Step executes next: 
@@ -430,7 +430,7 @@
       
 ---
       
-- **I provide test data as data Table"**
+- **I provide test data as data Table**
     - If you need to allocate all the test data for the big Scenario in one place - use this step.
       Data value can use any type of placeholders. Watchmen will read data table, resolve all placeholders and 
       store key, value in the scenario scope. To use test data in the next steps just refer to it 
