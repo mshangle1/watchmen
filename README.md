@@ -119,10 +119,10 @@ Asking testers to manually generate these values before each test run defeats th
 The majority of the existing automated testing tools do not explain the usage of scenarios. In addition they also make debugging complex and ineffective. 
 Developers and testers have a hard time debugging tests whose purpose is unclear. 
 
-With Watchmen framework we were able to overcome all these challenges and made testing simple but highly efficient:
+With Watchmen framework we were able to overcome all these challenges and make testing simple but highly efficient:
 
-By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
-By using Cucumber tool based on Behavior Driven Development, our end-to-end, integration tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
+- By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
+- By using Cucumber tool based on Behavior Driven Development, our end-to-end, integration tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
 
 ---
 
