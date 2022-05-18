@@ -456,7 +456,7 @@
              
              And I clear my previous API call
                   
-             Given I want to test URL "second_request/<saved_name>"
+             Given I want to call API Endpoint "second_request/<saved_name>"
              And   I provide headers as csv file "demo_headers.csv"
              And   I provide body as raw JSON file "demo.json"
              And   I set JSON body node to String:
