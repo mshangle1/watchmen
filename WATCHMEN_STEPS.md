@@ -297,25 +297,25 @@
 ---
 
 - **I query for Integer "sql_query" and store result as "key" in scenario scope**
-    - Resolve placeholders for sql_query. If SQL provided as a file - locate file and read from file SQL query.
+    - Resolve placeholders for sql_query. If SQL provided as a file (*.sql)- locate file and read from file SQL query (one query per file).
       Execute SQL query. Cast result to Integer. Save result in Scenario Scope as a key.
 ---
     
 - **I query for String "sql_query" and store result as "key" in scenario scope"**
-    - Resolve placeholders for sql_query. If SQL provided as a file - locate file and read from file SQL query.
+    - Resolve placeholders for sql_query. If SQL provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
       Execute SQL query. Cast result to String. Save result in Scenario Scope as a key.   
 ---
     
 - **I query for String "sql_query" with parameters as Data Table and store result as "key" in scenario scope:
         |param_name|value|**
-    - Resolve placeholders for sql query. If SQL query provided as a file - locate file and read from file SQL query.
+    - Resolve placeholders for sql query. If SQL query provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
       Resolve all placeholders for values from data table. Execute SQL query.
       Cast result to String. Save result in Scenario Scope as key  
 ---
       
 - **I query for Integer "sql_query" with parameters as Data Table and store result as "key" in scenario scope:
         |param_name|value|**
-    - Resolve placeholders for sql query. If SQL query provided as a file - locate file and read from file SQL query.
+    - Resolve placeholders for sql query. If SQL query provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
       Resolve all placeholders for values from data table. Execute SQL query.
       Cast result to Integer. Save result in Scenario Scope as key   
 ---
