@@ -126,7 +126,7 @@ By using Cucumber tool based on Behavior Driven Development, our end-to-end, int
 
 ## Watchmen Steps
 
-- All Watchmen steps and algorithms please see on WATCHMEN_STEPS.md   
+**All Watchmen steps and algorithms please see on WATCHMEN_STEPS.md**
 
 ---
  
