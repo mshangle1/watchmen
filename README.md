@@ -79,8 +79,8 @@ During runtime, Watchmen transforms Gherkin steps into Java code, enabling you t
 6. [Watchmen Placeholders](#watchmen-placeholders)
 7. [Generation Data on Runtime](#generation-data-on-runtime)
 8. [Share State Between Steps](#watchmen-share-state-between-steps)
-9. [SQL DataBase Connection](#SQL Data Base connection)
-10. [noSQL DataBase Connection](#NoSQL Data Base connection)
+9. [Relational DataBase Connection](#Relational Data Base connection)
+10. [Non Relational DataBase Connection](#Non Relational Data Base connection)
 11. [Integration with Swagger](#integration-with-swagger)
 12. [Integration with Selenium](#integration-with-selenium)
 13. [Integration with aws](#integration-with-aws)
@@ -420,9 +420,9 @@ Java object TestScope.java holding the state of scenario. This is a singleton
 ```
 ---
 
-## SQL Data Base connection
+## Relational Data Base connection
 
-- For today Watchmen has implemented connection with the next SQL data Bases:
+- For today Watchmen has implemented connection with the next relational data Bases:
   
   **Oracle DB, AuroraDB (aws)**
   
@@ -459,7 +459,7 @@ Java object TestScope.java holding the state of scenario. This is a singleton
 
 ---
 
-## NoSQL Data Base connection
+## Non Relational Data Base connection
 
 - For today Watchmen has implemented connection with next NoSQL data Bases:
  
