@@ -55,11 +55,11 @@
 ---
     
 - **I provide body as raw JSON file "payload.json"**
-    - Read "payload.json" file, if it exists add to the request specification body as a String
+    - Read "payload.json" file, resolve all placeholders and if it exists add to the request specification body as a String
 ---
 
 - **I provide body as raw XML file "filename"**
-    - Read "payload.xml" file, if it exists add to the request specification body as a String  
+    - Read "payload.xml" file, resolve all placeholders and if it exists add to the request specification body as a String  
 ---
 
 - **I provide form data as data Table:
@@ -68,7 +68,7 @@
 ---
 
 - **I provide form data as csv file "file_name.csv"**
-    - Read "file_name.json" file, if it exists - resolve all placeholders and add to the request specification: FormParams
+    - Read "file_name.json" file, resolve all placeholders and if it exists - resolve all placeholders and add to the request specification: FormParams
       File must be stored under resources, first row of the file will be skipped as it is header
 ---
 
