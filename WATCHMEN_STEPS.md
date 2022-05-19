@@ -8,7 +8,7 @@
 
 ## Steps
 
-# <img src="src/docs/watchmen-steps.png" width="800" height="600"> 
+# <img src="src/docs/watchmen-steps.png" width="800" height="400"> 
 
 ---
 
