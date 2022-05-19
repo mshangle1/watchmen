@@ -1,4 +1,4 @@
-# What’s required to put together Watchmen Framework.
+# What’s required to put together Watchmen Framework
 ------
 **Watchmen Framework - test automation framework based on BDD Cucumber-JVM**   
 
@@ -11,7 +11,7 @@
  - The glue between Gherkin and the system under test are implemented as regular Java methods and implemented in regular Java classes.
  - To simplify implementation of steps definition used many open source Java libraries, such as  "rest-assured", "jackson" "springframework", "openapitools", "amazonaws" and many others.
  - Dependency injection implemented using Spring.
- - To run Cucumber feature files used JUnit runner.
+ - To run Cucumber feature files Watchmen uses JUnit runner.
  - For reports Cucumber generates reports in the form of HTML, XML, JSON & TXT
  - Watchmen also provides Cluecumber reports and detailed logs
 
@@ -23,7 +23,7 @@
 
  - Testing scenarios are created by steps in Gherkin. Most lines in a Gherkin document start with one of the keywords.
 
- - The feature file should be called \<featureName\>.feature and placed in src/main/resources/features/
+ - The feature file should be called \<featureName\>.feature and placed under src/main/resources/features/
 
 
 Here’s the example of the feature file:
@@ -67,7 +67,7 @@ Here’s the example of the feature file:
 
  - Class TestScope.java holding the state of scenario. This is a singleton and to create and managing instances of this class Watchmen using Spring library. Spring will do all dependency managing, including making sure instance ends up where we need it. 
 
- - To configure Spring Watchmen has a class called \<SpringConfig\>.java  in src/main/java/com/ally/d3/watchmen/config. 
+ - To configure Spring Watchmen has a class called \<SpringConfig\>.java under src/main/java/com/ally/d3/watchmen/config. 
 
  - To avoid leakage between scenarios Watchmen resets TestScope on "Before" hook. 
 
@@ -78,39 +78,39 @@ Here’s the example of the feature file:
 
  - To run Cucumber feature files Watchmen uses JUnit test runner.
 
- - To configure JUnit runner Watchmen needs a file called \<featureName\>.java  in src/main/java/com/ally/d3/watchmen/testRunner/
+ - To configure JUnit runner Watchmen needs a file called \<featureName\>.java under src/main/java/com/ally/d3/watchmen/testRunner/
 
  - Here’s the example of the test runner file:
 
 
-      @RunWith(Cucumber.class)
-      @CucumberOptions(
-              features = "src/main/resources/features",
-              glue = "com/ally/d3/watchmen/steps",
-              tags ={"@oauth","not @skip"},
-              plugin = {"pretty", "html:target/cucumber/bagbasics",
+          @RunWith(Cucumber.class)
+            @CucumberOptions(
+                features = "src/main/resources/features",
+                glue = "com/ally/d3/watchmen/steps",
+                tags ={"@oauth","not @skip"},
+                plugin = {"pretty", "html:target/cucumber/bagbasics",
                       "junit: target/cucumber/bagbasics/cucumber.xml", "json:target/cucumber-report/cucumber.json"}
-      )
+                )
       
-      public class TestRunnerTemplate {
+          public class TestRunnerTemplate {
       
-      }
+           }
 
 
 
 
  - The @RunWith (Cucumber.class) annotation on the TestRunner class tells JUnit to kick off Cucumber. 
- - Cucumber run time parses the command-line options to know what Feature to run, where the Glue Code lives, what plugins to use, and so on.
+ - Cucumber run time parses the command-line options to know what features to run, where the glue code lives, what plugins to use, and so on.
 
 
 The above configurations telling Cucumber next things:
 
-to look for the feature files in src/main/resources/features/
-to look for the step definition files in com/ally/d3/watchmen/steps
-to run scenarios only with tag @oauth and to not run scenarios with tag @skip
-to generate XML report on target/cucumber-reports/ and name it cucumber.xml
-to generate Json report on target/cucumber-report/cucumber/ and name it cucumber.json
-to format cucumber.xml on monochrome style
+ - to look for the feature files in src/main/resources/features/
+ - to look for the step definition files in com/ally/d3/watchmen/steps
+ - to run scenarios only with tag @oauth and to not run scenarios with tag @skip
+ - to generate XML report on target/cucumber-reports/ and name it cucumber.xml
+ - to generate Json report on target/cucumber-report/cucumber/ and name it cucumber.json
+ - to format cucumber.xml on monochrome style
 
 
 For more information please see Cucumber Reference
@@ -186,7 +186,7 @@ Example of Watchmen logs for request-response:
 
 - Create new feature.file
 - Create your Scenarios reusing existing steps 
-- Update config.properties file with your id and password (needed for proxy authentication) , under src/main/resources.
+- Update config.properties file with runtime variables if needed
 - Create your  Run_your_feature.java class using template under src/main/java/testRunner.
 - Execute Run_your_feature.java
 
