@@ -54,17 +54,15 @@ public class DataBaseHelper {
     @Retryable(maxAttemptsExpression = "${max.attempts.query.db}",value=RuntimeException.class,backoff = @Backoff(delay = 3000))
     public void establishConnection () {
 
-
-
         Boolean connected = false;
-        logger.debug("Establish connection to the Data Base");
+        logger.debug("Check established connection to the Data Base successful");
         try {
             jdbcTemplate.execute("SELECT 1 FROM DUAL");
             logger.debug("Connection to the Data Base SUCCESSFUL");
             connected= true;
         } catch (Exception e) {
-            logger.error("Connection to the Data Base FAILED");
-            throw new RuntimeException("Connection to Data Base FAILED");
+            logger.error("Connection to the Data Base FAILED "+e);
+            throw new RuntimeException("Connection to Data Base FAILED "+e);
         }
         Assert.assertTrue("Connection to Data Base FAIL", connected);
     }

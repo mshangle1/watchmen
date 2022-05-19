@@ -282,7 +282,7 @@ For more information please see - https://librarycarpentry.org/lc-webscraping/02
     
     
      Given I want to call API Endpoint "{{watchmen.baseUrl}}"
-     And   I provide headers as csv file "watchmen/headers/defaultHeaders.csv"
+     And   I provide headers as csv file "watchmen/headers/{{env}}/defaultHeaders.csv"
      And   I provide body as raw JSON file "watchmen/payloads/api/v1/addApplicant.json"
      And   I set JSON body node "<node>" to ""<value>""
      When  I send "POST" request
@@ -420,7 +420,7 @@ Java object TestScope.java holding the state of scenario. This is a singleton
      
          And I clear my previous API call
      
-         Given I want to test URL "second_request/<saved_name>"
+         Given I want to call API Endpoint "second_request/<saved_name>"
          And   I provide headers as csv file "demo_headers.csv"
          And   I provide headers as data Table:
           |Access token|<saved_token>|

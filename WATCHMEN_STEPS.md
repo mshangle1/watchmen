@@ -296,6 +296,14 @@
       If node not found using "xpath"  -  step will Fail
 ---
 
+- **And I establish connection to Data Base "DB""**
+    - Currently Watchmen supports Oracle DB and Aurora DB (aws) connection
+    - Watchmen reads information about requested connection to DB during launch time from the config.properties (spring.profiles.active)
+    - By default (if spring.profiles.active not specified) there are no connection to any DB
+    - On this step Watchmen will verify the connection to the Data Base SUCCESSFUL by executing "SELECT 1 FROM DUAL"
+    - If provided DB credentials or URL connection are invalid - connection cannot be established and this step will fail
+---
+
 - **I query for Integer "sql_query" and store result as "key" in scenario scope**
     - Resolve placeholders for sql_query. If SQL provided as a file (*.sql)- locate file and read from file SQL query (one query per file).
       Execute SQL query. Cast result to Integer. Save result in Scenario Scope as a key.

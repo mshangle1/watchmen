@@ -878,6 +878,17 @@ public class CommonApiStepsDefinition {
         responseHelper.storeValueFromResponseCookie(cookie, key);
     }
 
+    @And("^I establish connection to Data Base \"([^\"]*)\"$")
+    public void iEstablishConnectionToDataBase(String db) {
+        logger.info("Step: I establish connection to Data Base " + db);
+        if (db.toLowerCase().contains("oracle") || db.toLowerCase().contains("aurora"))
+            dataBaseHelper.establishConnection();
+        else {
+            logger.error("Watchmen does not have configurations for the DB: " + db);
+            Assert.assertTrue("Watchmen does not have configurations for the DB: " + db + ".Please connect to Watchmen team", false);
+        }
+    }
+
 
     @And("^I query for String \"([^\"]*)\" and store result as \"([^\"]*)\" in the scenario scope$")
     public void queryForStringSave(String sql, String key) {

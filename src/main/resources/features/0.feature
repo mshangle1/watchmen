@@ -9,6 +9,3 @@ Feature: Very first scenario
 
      And I send "GET" request
      Then Response has Status code: "200"
-
-
-
