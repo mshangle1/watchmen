@@ -58,6 +58,7 @@ Here’s the example of the feature file:
     - DataBaseHelper
     - ...
 
+ - All available Watchmen steps and their algorithms please see on WATCHMEN_STEPS.md 
 ---
 
 ## Managing Dependency
