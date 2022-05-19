@@ -179,7 +179,7 @@ Example of Watchmen logs for request-response:
        
 - To execute demo scenarios
        
-       run command: mvn test  -Dtest=TestRunnnerTemplate 
+       run command: mvn test  -Dtest=TestRunnerTemplate 
        
        
 **This is it. Now your are ready to start testing your API**
