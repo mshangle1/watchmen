@@ -16,15 +16,7 @@ package com.ally.d3.watchmen.utilities;
 import com.ally.d3.watchmen.utilities.dataDriven.DefaultDataHelper;
 import com.ally.d3.watchmen.utilities.dataDriven.JsonHelper;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import cucumber.api.Scenario;
-import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.config.LogConfig;
-import io.restassured.config.RestAssuredConfig;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.Header;
 import io.restassured.path.xml.XmlPath;
 import io.restassured.path.xml.exception.XmlPathException;
@@ -32,21 +24,11 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
-import org.apache.commons.io.output.WriterOutputStream;
-import org.junit.Rule;
-import org.junit.rules.TestWatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import com.ally.d3.watchmen.steps.TestScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -357,49 +339,6 @@ public class RestAssuredHelper {
         }
         return nodeVal;
         }
-
-
-
-    public void setResponseLoggingToFile(Scenario scenario){
-
-        // save rest-assured logging to the file scenarioID.txt
-
-        logger.debug("Save request-response logs to the file: "+scenario.getId().replaceAll("/","_")+".txt");
-        try {
-
-           // Path logDir = Paths.get("./logs/watchmen/requestResponse/");
-            //+File.separator
-            Path logDir = Paths.get("."+File.separator+"logs"+File.separator+"watchmen"+File.separator+"requestResponse"+File.separator);
-
-
-            // create logs directory path
-            // if the log-directory doesn't exist then create it
-            if (Files.notExists(logDir)) {
-                try { Files.createDirectories(logDir); }
-                catch (Exception e ) { e.printStackTrace(); }
-            }
-
-            // create logs subdirectory path
-            String pattern = "yyyy-MM-dd";
-            Path confDir = Paths.get(logDir+File.separator+LocalDate.now().format(DateTimeFormatter.ofPattern(pattern))+File.separator);
-
-
-            // if the sub-directory doesn't exist then create it
-            if (Files.notExists(confDir)) {
-                try { Files.createDirectories(confDir); }
-                catch (Exception e ) { e.printStackTrace(); }
-            }
-            File outputFile = new File(confDir+File.separator+scenario.getId().replaceAll("/","_").replaceAll("\\\\","_")+".txt");
-            FileWriter fileWriter = new FileWriter(outputFile);
-            PrintStream printStream = new PrintStream(new WriterOutputStream(fileWriter), true);
-
-            RestAssured.config = RestAssured.config().logConfig(LogConfig.logConfig().defaultStream(printStream));
-        }
-        catch (Exception e) {
-            logger.error("Error to create "+scenario.getId().replaceAll("/","_")+ " file, so will log to console");
-        }
-    }
-
 
 
 }

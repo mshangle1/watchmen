@@ -20,6 +20,7 @@ import com.ally.d3.watchmen.utilities.dataDriven.PlaceholderResolve;
 import com.ally.d3.watchmen.utilities.dataDriven.ReadFile;
 import com.ally.d3.watchmen.utilities.dataDriven.XMLHelper;
 import com.fasterxml.jackson.databind.JsonNode;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.response.ValidatableResponse;
@@ -74,6 +75,7 @@ public class RequestHelper {
 
         //specify requestSpecification
         return restAssuredHelper.specifyRequestForURL(testScope.requestSpec,url);
+
 
 
     }

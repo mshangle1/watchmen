@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ally.d3</groupId>
-    <artifactId>watchmen-1.0</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>watchmen</artifactId>
+    <version>1.0.0-RELEASE</version>
     <packaging>jar</packaging>
     <name>watchmen</name>
     <description>BDD framework for API testing</description>

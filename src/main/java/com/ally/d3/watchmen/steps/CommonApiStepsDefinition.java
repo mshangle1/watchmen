@@ -86,6 +86,11 @@ public class CommonApiStepsDefinition {
     @Autowired
     AuthorizationHelper authorizationHelper;
 
+    @Value("${useRelaxedHTTPSValidation:false}")
+    private boolean useRelaxedHTTPSValidation;
+
+
+
 
     //inject properties from properties file
 
@@ -114,7 +119,11 @@ public class CommonApiStepsDefinition {
         //To avoid leaking between scenarios need to reset all variables
         testScope.reset();
 
+        if (useRelaxedHTTPSValidation)
         RestAssured.useRelaxedHTTPSValidation();
+
+        //If you want to have certs validated - create Java keystore file and use it
+        //RestAssured.keystore("/pathToJksInClassPath", "<password>"
     }
 
 
