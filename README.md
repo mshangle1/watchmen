@@ -87,8 +87,9 @@ During runtime, Watchmen transforms Gherkin steps into Java code, enabling you t
 14. [Watchmen Proxy](#watchmen-proxy)
 15. [Watchmen Logs](#watchmen-logs)
 16. [Watchmen Reports](#watchmen-reports)
-17. [People](#people)
-18. [License](#License)
+17. [Watchmen Security](#watchmen-security)
+18. [People](#people)
+19. [License](#License)
 
 ---
 
@@ -592,9 +593,22 @@ To generate your aggregated report run mvn command:
       
 ---
 
+## Watchmen Security
+
+ - Watchmen does not contain hardcoded secrets or PII data on the codebase, nether scenarios or on input data
+ - All the inputs you do not want to expose, have to be provided in the config.properties file as a reference to system variables, or env variables, or command line arguments:
+ 
+      consumer_key=${consumer_key}
+      consumer_secret=${consumer_secret}
+   
+ - While generating logs Watchmen masks all sensitive information 
+ - To manage masking rules all what you need to do is define regex patterns for masking on logback.xml file  
+ 
+---
+
 ## People
 
-- [Olga Ermolova]
+- [Olga Ermolova], Ally DQA team. 
 ---
 
 ## License
