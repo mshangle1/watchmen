@@ -595,11 +595,11 @@ To generate your aggregated report run mvn command:
 
 ## Watchmen Security
 
- - Watchmen does not contain hardcoded secrets or PII data on the codebase, nether scenarios or on input data
- - All the inputs you do not want to expose, have to be provided in the config.properties file as a reference to system variables, or env variables, or command line arguments:
+ - Watchmen code does not contain any PII, secrets, keys etc
+ - All the inputs you do not want to expose, have to be provided in the config.properties file as a reference to the system variables, or env variables, or command line arguments:
  
-      consumer_key=${consumer_key}
-      consumer_secret=${consumer_secret}
+        consumer_key=${consumer_key}
+        consumer_secret=${consumer_secret}
    
  - While generating logs Watchmen masks all sensitive information 
  - To manage masking rules all what you need to do is define regex patterns for masking on logback.xml file  
