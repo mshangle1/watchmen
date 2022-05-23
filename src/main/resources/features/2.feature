@@ -4,7 +4,7 @@ Feature: Second Test Set
 #-----------------------------------------------------------------------------------------------------------------------
   Scenario: Google
 
-    Given I want to call API Endpoint "{{google}}"
+    Given I want to call API Endpoint "{{deployment_url}}"
     And I provide headers as csv file "data/headers.csv"
     And I provide body as raw JSON file "data/request.json"
     And I set JSON body node "field" to ""%randomAlpha(10)%""
@@ -14,7 +14,7 @@ Feature: Second Test Set
 
     And I clear my previous API call
 
-    Given I want to call API Endpoint "{{google}}/<options>"
+    Given I want to call API Endpoint "{{deployment_url}}/<options>"
     And I provide headers as csv file "data/headers.csv"
     And I provide headers as data Table:
     |options     |<options>                           |

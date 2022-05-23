@@ -1,5 +1,5 @@
 Feature: Very first scenario
-@first
+  @first
   Scenario: very first scenario
 
     Given I want to call API Endpoint "https://www.google.com"
@@ -7,5 +7,5 @@ Feature: Very first scenario
 
       |Content-Type|application/json; charset=utf-8|
 
-     And I send "GET" request
-     Then Response has Status code: "200"
+    And I send "GET" request
+    Then Response has Status code: "200"

@@ -177,9 +177,36 @@ Example of Watchmen logs for request-response:
        
        run command:   mvn compile
        
-- To execute demo scenarios
+
+- Check config.properties file and provide request settings: 
+
+      # Set use proxy, proxy host, proxy port if your don't want to use the system default settings but want to have a control over proxy 
+      # By default = false
+      # Proxy Auth - proxyUser & proxyPassword  must be set up on your system default settings 
+         
+         host=10.100.100.100
+         port=8
+         useProxy=true
+     
        
-       run command: mvn test  -Dtest=TestRunnerTemplate 
+      #Defime if you need to use relaxed HTTP validation. This means that you'll trust all hosts regardless if the SSL certificate is invalid. 
+      #By default = false
+         
+          useRelaxedHTTPSValidation=true
+          
+       # Handling Asynchronous Wait. This settings works with the step "I send "\<request type\>" request and wait for the Response \<Response code\>"
+          
+          waitForResponseSeconds=10
+ 
+ 
+       # Deployment URL or other endpoints
+
+          deployment_url=https://...
+          
+          
+ - To execute demo scenarios run command:        
+       
+          mvn test  -Dtest=TestRunnerTemplate 
        
        
 **This is it. Now your are ready to start testing your API**

@@ -4,7 +4,7 @@ Feature: First Test Set
 #-----------------------------------------------------------------------------------------------------------------------
   Scenario: Google
 
-    Given I want to call API Endpoint "{{google}}"
+    Given I want to call API Endpoint "{{deployment_url}}"
     And I provide headers as csv file "data/headers.csv"
     When I send "GET" request
     Then Response has Status code: "200"
