@@ -1,0 +1,4 @@
+header,value
+Content-Type,{{int_content_type}}
+header1,%yearsAgo(100)%
+header2,%daysAgo(2)%
