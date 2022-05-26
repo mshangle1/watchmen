@@ -55,18 +55,6 @@ pipeline {
                    }
                }
 
-          stage("mvn build and publish to nexus") {
-              steps {
-                  script {
-                      // If you are using Windows then you should use "bat" step
-                      // Since unit testing is out of the scope we skip them
-                      // Maven will build artifact and deploy it to Nexus
-                      // artifactId = cucumber-rest-assured
-                      sh "mvn clean deploy -DskipTests=true"
-                  }
-              }
-          }
-
       }
   }
 
