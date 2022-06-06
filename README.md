@@ -608,7 +608,7 @@ To generate your aggregated report run mvn command:
 
 ## People
 
-- [Olga Ermolova], Ally DQA team. 
+- Ally DQA team
 ---
 
 ## License

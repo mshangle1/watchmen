@@ -41,7 +41,7 @@ public class ReadFile {
         String[] cols = null;
         List<String[]> list = new ArrayList<>();
 
-        Path p = getFilePath(csvFile);
+        Path p = getFilePath(csvFile).normalize();
 
             try {
                 logger.debug("Parse file");
@@ -78,7 +78,7 @@ public class ReadFile {
         String[] lineAsArray = null;
         List<String[]> listOfLines = new ArrayList<>();
 
-        Path p = getFilePath(csvFile);
+        Path p = getFilePath(csvFile).normalize();
 
         try {
             logger.debug("Parse file");
@@ -172,7 +172,7 @@ public class ReadFile {
         logger.debug("Read file as bytes "+ file);
         byte[] fileBytes = null;
 
-        Path p = getFilePath(file);
+        Path p = getFilePath(file).normalize();
 
         logger.debug("File exists, reading file as ByteArray");
                 try {
@@ -198,7 +198,7 @@ public class ReadFile {
             logger.debug("File does not exist on the Resources. Look in the working directory.. ");
             try {
                 logger.debug("Look in the working directory");
-                p = Paths.get(fileName);
+                p = Paths.get(fileName).normalize();
             } catch (Throwable e2) {
                 logger.debug("File does not exist on the Resources");
                 throw new RuntimeException("File not found: " + fileName);
