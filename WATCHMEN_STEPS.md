@@ -19,6 +19,8 @@
     
     - Examples: 
     
+          I want to call API Endpoint "https://dev.ally.com/alerts"
+    
           I want to call API Endpoint "{{alerts_URL}}"
     
           I want to call API Endpoint "https://dev.ally.com/{{alerts_endpoint}}"
@@ -33,25 +35,87 @@
     
 - **I provide basePath as "<>"**
     - Resolve all placeholders and add to the request specification "/basePath"
+    
+    - Examples: 
+   
+           I provide basePath as "{{basePath}}"
+   
+           I provide basePath as "/path1/{{path2}}/<path3>/"
+           
+    
+    "basePath", "path2" have to be provided on config.properties or as a runtime variable
+    "path3" has to be saved on the previous steps on the Scenario scope 
 ---
 
 - **I provide path variables as data Table:
          |path_id|path_value |**
     -  Read data table and for the each row resolve placeholders and add to the request specification PathVariables
+    
+    - Examples: 
+       
+           I provide path variables as data Table:
+               
+               |path1|v1              |
+               |path2|<booster_id>    |
+               |path3|accounts        |
+               |path4|{{account_id}}  |
+                 
+        
+     "account_id" has to be provided on config.properties or as a runtime variable
+     "booster_id" has to be saved on the previous steps on the Scenario scope 
 ---
 
 - **I provide query parameters as data Table:
          |param_id|param_value |**
-    - Read data table and for the each row resolve placeholders and add to the request specification Query parameters    
+    - Read data table and for the each row resolve placeholders and add to the request specification Query parameters 
+    
+    - Examples: 
+           
+             I provide query parameters as data Table:
+                   
+                   |isExternal|true        |
+                   |accountId |<account_id>|
+                   |customer  |{{cid}}     |
+                   |lob       |auto        |
+                   
+                     
+            
+     "cid" has to be provided on config.properties or as a runtime variable
+     "account_id" has to be saved on the previous steps on the Scenario scope    
 ---
 
 - **I provide query parameter "key" as "values"**
     - Split values by "," resolve placeholders for each value and add to the request specification: Query parameters
+    
+     - Examples: 
+               
+                       I provide query parameter "lob" as "auto"
+                       I provide query parameter "lob" as "auto,deposit"
+                       I provide query parameter "lob" as "{{lob1}},{{lob2}}"
+                       I provide query parameter "Account" as "<account_id>"
+                                                
+                
+      "lob1" and "lob2" have to be provided on config.properties or as a runtime variable
+      "account_id" has to be saved on the previous steps on the Scenario scope
+    
 ---
 
 - **I provide headers as data Table:
           |header|value |**
     - Read data table and for the each row resolve placeholders and add to the request specification header = value 
+    
+     - Examples: 
+               
+              I provide headers as data Table:
+                       
+                       |isExternal|true        |
+                       |accountId |<account_id>|
+                       |customer  |{{cid}}     |
+                       |lob       |auto        |
+                                          
+                
+         "cid" has to be provided on config.properties or as a runtime variable
+         "account_id" has to be saved on the previous steps on the Scenario scope  
 ---
 
 - **I provide headers as csv file "file_name.csv"**
