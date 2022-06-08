@@ -54,7 +54,6 @@ public class RequestHelper {
     @Autowired
     XMLHelper xmlHelper;
 
-
     @Autowired
     TestScope testScope;
 
@@ -64,25 +63,22 @@ public class RequestHelper {
     @Autowired
     ReadFile readFile;
 
-
     @Autowired
     RestAssuredRequestFilter enableRestAssuredLogs;
 
     //Create request specification: URL, Ally Proxy settings and Ally Proxy Authorization,
     //By default add header with Tester name to all requests for tracing
 
-    public RequestSpecification startBuildingRequestForAPI(String url) {
+    public void startBuildingRequestForAPI(String url) {
 
         //specify requestSpecification
-        return restAssuredHelper.specifyRequestForURL(testScope.requestSpec,url);
-
-
+        testScope.requestSpec = restAssuredHelper.specifyRequestForURL(testScope.requestSpec,url);
 
     }
 
     //Add Headers to existing RequestSpecification
 
-    public void addHeadersToRequest( Map<String, String> headers) {
+    public void addHeadersToRequest(Map<String, String> headers) {
 
         logger.debug("Add headers to the RequestSpec");
         testScope.requestSpec.headers(headers);
@@ -90,7 +86,7 @@ public class RequestHelper {
     }
 
     //Add Form data  to existing RequestSpecification
-    public void addFormDataToRequest( Map<String, String> formData) {
+    public void addFormDataToRequest(Map<String, String> formData) {
 
         logger.debug("Add form data to the RequestSpec");
         testScope.requestSpec.formParams(formData);
@@ -112,7 +108,7 @@ public class RequestHelper {
     // where "/{id}/{id2}" - requestBasePath
     //and "/123/456" - requestBasePath after replacing key with values
 
-    public void addPathVariablesToRequest( Map<String, String> params) {
+    public void addPathVariablesToRequest(Map<String, String> params) {
 
         //StringBuilder requestBasePath = new StringBuilder();
         //Get all the key from Map params to build requestBasePath
@@ -135,10 +131,17 @@ public class RequestHelper {
     // URL with query param should look like api.ally.com/com.ally.d3.watchmen.demo/products?id=123
     // where ?id=123 - query parameters
 
-    public void addQueryParamToRequest( Map<String, String> queryParam) {
+    public void addQueryParamToRequest(Map<String, String> queryParam) {
 
-        logger.debug("Add queryParam to the RequestSpec");
+        logger.debug("Add queryParams Map to the RequestSpec");
         testScope.requestSpec.queryParams(queryParam);
+
+    }
+
+    public void addQueryParamToRequest(String key, String value) {
+
+        logger.debug("Add queryParams to the RequestSpec");
+        testScope.requestSpec.queryParams(key,value);
 
     }
 
@@ -146,7 +149,7 @@ public class RequestHelper {
     // URL with query param should look like api.ally.com/com.ally.d3.watchmen.demo/products?id=123
     // where ?id=123 - query parameters
 
-    public void addBasePathToRequest( String basePathtoAdd) {
+    public void addBasePathToRequest(String basePathtoAdd) {
 
         logger.debug("Add basePath to the RequestSpec");
         if (!basePathtoAdd.startsWith("/")){
@@ -181,7 +184,6 @@ public class RequestHelper {
 
 
 
-
     public void addJSONBodyAsStringToRequest(String body) {
 
         logger.debug("Add String as a body to the RequestSpec ");
@@ -202,7 +204,6 @@ public class RequestHelper {
     //path should be on format "/node/node"
    public void removeNodeFromJSON(String node) {
 
-
     logger.debug("Remove Node "+node+" from the JSON payloads");
 
     //jsonTree will be automatically updated on TestScope
@@ -214,15 +215,13 @@ public class RequestHelper {
     //Set JsonNode Json tree as Request body
     setJsonTreeAsRequestBody(requestJsonBody);
 
-
 }
 
     //Set JSON node to String
     //Set JSON node to String \format {node: <value>}
-    public void setBodyNodeToString( String path, String value) {
+    public void setBodyNodeToString(String path, String value) {
 
         logger.debug("Set JSON body node "+path+" as String "+value);
-
 
         //set Json field with path to new value
         //jsonTree will be automatically updated on TestScope
@@ -231,11 +230,8 @@ public class RequestHelper {
         JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
         jsonHelper.setJsonNodeToString(requestJsonBody,path,value);
 
-
-
          //Set JsonNode Json tree as Request body
          setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
@@ -250,20 +246,16 @@ public class RequestHelper {
         JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
         jsonHelper.setJsonNodeToString_StringFormat(requestJsonBody,path,value);
 
-
         //Set JsonNode Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
     //Add JSON node
     //new node will look like  {node: <value>}
-    public void addNodeToJSON( String parentPath, String node, String value) {
-
+    public void addNodeToJSON(String parentPath, String node, String value) {
 
         logger.debug("Add Node to the parent path "+node+" as a String "+value);
-
 
         //set Json field with path to new value
         //jsonTree will be automatically updated on TestScope
@@ -276,16 +268,13 @@ public class RequestHelper {
         //Set updated Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
 
-
     }
 
     //Add JSON node
     //new node will look like  {node: <value>}
     public void addNodeToArrayJSON(String parentPath, String value) {
 
-
         logger.debug("Add Node to the Array parent "+ parentPath+" as a String "+value);
-
 
         //add new item to the Json array node
         //jsonTree will be automatically updated on TestScope
@@ -298,14 +287,12 @@ public class RequestHelper {
         //Set updated Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
 
-
     }
 
 
     //Add JSON Node in String format
     //new node will look like  {node: "<value>"}
     public void addNodeToJSON_StringFormat(String parentPath, String node, String value) {
-
 
         logger.debug("Add Node to the parent path "+node+" as a String "+value);
 
@@ -326,7 +313,6 @@ public class RequestHelper {
     //Add as a new node ander newParent
     public void copyNodeAddAsNewNode(String parentPath, String newParentPath, String newNode) {
 
-
         logger.debug("Copy Node "+parentPath+" As New Node "+newNode);
 
         JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
@@ -338,8 +324,7 @@ public class RequestHelper {
 
     }
 
-    public void copyNodeAddAsArray( String parentPath, String newParentPath) {
-
+    public void copyNodeAddAsArray(String parentPath, String newParentPath) {
 
         logger.debug("Copy Node "+parentPath+" add under Array node "+newParentPath);
 
@@ -359,7 +344,6 @@ public class RequestHelper {
     //Set JsonNode Json tree as Request body
     public void setJsonTreeAsRequestBody(JsonNode jsonTree) {
 
-
         logger.debug("Set Json tree as a Request body");
 
             //convert Json Tree to String
@@ -375,7 +359,6 @@ public class RequestHelper {
 
     //Set XML node to String
     public void setXmlBodyNodeToString(String path, String value) {
-
 
         logger.debug("Set XML body node: "+path+" as a String "+value);
 
@@ -394,14 +377,11 @@ public class RequestHelper {
             //add String body to request
 
             addXMLBodyAsStringToRequest( newXmlBodyAsString);
-
     }
 
 
-
     //Add XML node
-    public void addNodeToXml( String parentPath,String node, String value) {
-
+    public void addNodeToXml(String parentPath,String node, String value) {
 
         logger.debug("Add Node to the parent node "+node+", as a String "+value);
         Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
@@ -424,8 +404,7 @@ public class RequestHelper {
     }
 
     //Add XML node Attribute
-    public void addNodeAttrToXml( String attr,String node, String value) {
-
+    public void addNodeAttrToXml(String attr,String node, String value) {
 
         logger.debug("Add attribute "+attr+", as a String "+value);
         Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
@@ -450,13 +429,11 @@ public class RequestHelper {
 
     //remove node from XML body
     //path must be on format "/node/node"
-    public void removeNodeFromXML( String path) {
-
+    public void removeNodeFromXML(String path) {
 
         logger.debug("Remove XML Node " + path + ", from the XML payload");
 
         Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
-
 
         //in case of error xml remains the same and step  fail
 
@@ -477,10 +454,10 @@ public class RequestHelper {
         addXMLBodyAsStringToRequest(newXmlBodyAsString);
     }
 
+
     //remove node attribute from XML body
     //path must be on format "/node/node"
-    public void removeNodeAttrFromXML( String path, String attr) {
-
+    public void removeNodeAttrFromXML(String path, String attr) {
 
         logger.debug("Remove attribute: "+attr+" from the XML Node " + path);
 
@@ -507,10 +484,7 @@ public class RequestHelper {
 
 
 
-
-
-
-        //----------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------
     //     Execute request
     //----------------------------------------------------------------------------------------------------------------
 
@@ -539,7 +513,7 @@ public class RequestHelper {
     }
 
 
-    public ValidatableResponse executeRequestToValidate( String requestType) {
+    public ValidatableResponse executeRequestToValidate(String requestType) {
 
         logger.debug("Execute Request: "+requestType+" And Get Response To Validate");
         String requestTypeUpperCase = requestType.toUpperCase();
@@ -562,7 +536,6 @@ public class RequestHelper {
         }
 
     public Map<String, String> resolveAllPlaceholders (Map<String, String> map ) {
-
 
         logger.debug("Check and replace all {{property_name}} variables with corresponding properties from properties file");
         Map<String, String> newMap1 = placeholderResolve.replacePropertiesOnMap(map);
@@ -637,6 +610,7 @@ public class RequestHelper {
         testScope.saveInJsonContainer(key,getRequestBodyFromSpecAsJson(requestSpec));
     }
 
+
     public Document getRequestBodyFromSpecAsXMLDoc (RequestSpecification requestSpec) {
 
         Document bodyXmlDoc;
@@ -652,12 +626,6 @@ public class RequestHelper {
         return bodyXmlDoc;
 
     }
-
-
-
-
-
-
 }
 
 
