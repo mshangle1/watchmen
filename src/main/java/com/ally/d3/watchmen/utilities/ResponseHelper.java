@@ -67,7 +67,7 @@ public class ResponseHelper {
     ReadFile readFile;
 
 
-    public void validateResponseStatusCode( Integer expectedStatusCode) {
+    public void validateResponseStatusCode(Integer expectedStatusCode) {
 
         logger.debug("Assert Response status code is: " + expectedStatusCode);
         Integer actualStatusCode = restAssuredHelper.getStatusCodeFromResponse(testScope.response);
@@ -75,7 +75,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseContentType( String expectedContentType) {
+    public void validateResponseContentType(String expectedContentType) {
 
         logger.debug("Assert Response Content Type is: " + expectedContentType);
         String actualContentType = restAssuredHelper.getContentTypeFromResponse(testScope.response);
@@ -83,7 +83,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseBodyNodeExist( String expectedNode) {
+    public void validateResponseBodyNodeExist(String expectedNode) {
 
         logger.debug("Assert Response JSON Body Node: " + expectedNode + " exists");
         Assert.assertTrue("Expected Response node: " + expectedNode + " was not found ", isResponseNodeExist(expectedNode));
@@ -91,14 +91,14 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseXmlBodyExists( String expectedNode) {
+    public void validateResponseXmlBodyExists(String expectedNode) {
 
         logger.debug("Assert Response Xml Body Node: " + expectedNode + " exists");
         Assert.assertTrue("Expected Xml Response node: " + expectedNode + " was not found ", isResponseXmlNodeExist(expectedNode));
 
     }
 
-    public Boolean isResponseCookieExist( String cookie) {
+    public Boolean isResponseCookieExist(String cookie) {
 
         logger.debug("Check if Cookie: " + cookie + " exists");
         if (restAssuredHelper.getCookiesAsMap(testScope.response).get(cookie) != null) {
@@ -112,7 +112,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseCookieHasNextStringValue( String cookieName, String expectedCookieValue) {
+    public void validateResponseCookieHasNextStringValue(String cookieName, String expectedCookieValue) {
 
         logger.debug("Assert Response Cookie: " + cookieName + " Has next String value: " + expectedCookieValue);
 
@@ -126,7 +126,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseHasNextCookie(ResponseOptions<Response> response, String cookieName) {
+    public void validateResponseHasNextCookie(String cookieName) {
 
         logger.debug("Assert Response has cookie: " + cookieName);
         Assert.assertTrue("Expected cookie " + cookieName + " was not found", isResponseCookieExist(cookieName));
@@ -134,7 +134,7 @@ public class ResponseHelper {
     }
 
 
-    public Boolean isResponseNodeExist( String expectedNode) {
+    public Boolean isResponseNodeExist(String expectedNode) {
 
         logger.debug("Check if Response node: " + expectedNode + " exists");
         JsonNode responseBodyJson = null;
@@ -199,7 +199,7 @@ public class ResponseHelper {
 
 
 
-    public void validateResponseMatchesSchemaSwagger( String swaggerFile, String definitionPointer)  {
+    public void validateResponseMatchesSchemaSwagger(String swaggerFile, String definitionPointer)  {
 
         logger.debug("Assert Response Matches Swagger: " + swaggerFile+ " definition "+definitionPointer);
         String jsonResponse = testScope.response.getBody().asString();
@@ -211,7 +211,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseMatchesJson( String jsonFile)  {
+    public void validateResponseMatchesJson(String jsonFile)  {
 
         logger.debug("Assert Response Matches Json: " + jsonFile);
         String jsonResponse = testScope.response.getBody().asString();
@@ -222,7 +222,7 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseBodyStringNodeEqualToVal( String node, String expectedNodeVal) {
+    public void validateResponseBodyStringNodeEqualToVal(String node, String expectedNodeVal) {
 
         logger.debug("Assert Response Body Node: " + node + " Equals to String: " + expectedNodeVal);
         //first check if Node is presents
@@ -240,7 +240,7 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseBodyNodeContainsString( String node, String expectedNodeVal) {
+    public void validateResponseBodyNodeContainsString(String node, String expectedNodeVal) {
 
         logger.debug("Assert Response Body node: " + node + " Contains String: " + expectedNodeVal);
         String expectedNodeValUpperCase = expectedNodeVal.toUpperCase();
@@ -278,14 +278,14 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseXmlNodeEqualsToVal( String path, String expectedVal) {
+    public void validateResponseXmlNodeEqualsToVal(String path, String expectedVal) {
 
         logger.debug("Assert Response XML node: " + path + " Equals To Val ignoring case: " + expectedVal);
         Assert.assertTrue("Response XML node = " + path + " does not match expected", getValueFromResponseXmlBody( path).equalsIgnoreCase(expectedVal));
 
     }
 
-    public void validateResponseXmlNodeContainsVal( String path, String expectedVal) {
+    public void validateResponseXmlNodeContainsVal(String path, String expectedVal) {
 
         logger.debug("Assert Response XML node: " + path + " Contains Val ignoring case: " + expectedVal);
         String expectedValUC = expectedVal.toUpperCase();
@@ -293,13 +293,19 @@ public class ResponseHelper {
 
     }
 
-    public void validateResponseTime( long expectedTime) {
-
+    public void validateResponseTime(long expectedTime) {
 
         logger.debug("Assert Response time is less then: " + expectedTime);
-        long actualTime = restAssuredHelper.getResponseTime(testScope.response);
+        long actualTime = getResponseTime();
         logger.debug("Response time: " + actualTime);
         Assert.assertTrue("Expected response time = " + expectedTime + " not less then actual time =  " + actualTime, actualTime < expectedTime);
+
+    }
+
+    public long getResponseTime() {
+
+        logger.debug("Get Response time");
+        return restAssuredHelper.getResponseTime(testScope.response);
 
     }
 
@@ -370,7 +376,7 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseHasALLHeadersONLY( List<String> expectedHeadersList) {
+    public void validateResponseHasALLHeadersONLY(List<String> expectedHeadersList) {
 
         logger.debug("Assert if Response has only expected headers and only that");
         Boolean isAllExpectedHeadersFound = true;
@@ -411,14 +417,14 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseHasNextHeaderName( String headerName) {
+    public void validateResponseHasNextHeaderName(String headerName) {
 
         logger.debug("Assert Response has header: " + headerName);
         Assert.assertTrue("Expected Response header: " + headerName + " was not found", restAssuredHelper.isHeaderPresentedOnResponse(testScope.response, headerName));
 
     }
 
-    public void validateResponseHeaderHasNextStringValue( String headerName, String expectedHeaderValue) {
+    public void validateResponseHeaderHasNextStringValue(String headerName, String expectedHeaderValue) {
 
         logger.debug("Assert header: " + headerName + " has expected value: " + expectedHeaderValue);
 
@@ -435,7 +441,7 @@ public class ResponseHelper {
     }
 
 
-    public void validateResponseBodyJSONNodeIsAnArrayOfSize( String node, Integer expectedSize) {
+    public void validateResponseBodyJSONNodeIsAnArrayOfSize(String node, Integer expectedSize) {
 
         logger.debug("Assert Response Body node: " + node + " Is an Array of Size = " + expectedSize);
         //first assert if Node exists
@@ -451,7 +457,7 @@ public class ResponseHelper {
 
     }
 
-    public void storeValueFromResponseBody( String node, String key) {
+    public void storeValueFromResponseBody(String node, String key) {
 
         logger.debug("Store Value From Response Body node: " + node + " as: " + key);
 
@@ -468,7 +474,7 @@ public class ResponseHelper {
 
     }
 
-    public String getValueFromResponseXmlBody( String path) {
+    public String getValueFromResponseXmlBody(String path) {
 
 
         String nodeValue = null;
@@ -492,7 +498,7 @@ public class ResponseHelper {
     }
 
 
-    public void storeValueFromResponseXmlBody( String path, String key) {
+    public void storeValueFromResponseXmlBody(String path, String key) {
 
         logger.debug("Store Value From the Xml Response Body node: " + path+", as: " + key);
 

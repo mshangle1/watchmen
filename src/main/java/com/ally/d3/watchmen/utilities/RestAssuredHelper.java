@@ -78,7 +78,6 @@ public class RestAssuredHelper {
         //Invoke Request-Response logging
 
 
-
         //Ally Proxy reactivate tunnel settings
         System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
 
@@ -95,17 +94,13 @@ public class RestAssuredHelper {
         //add header with tester name to the builder
         //builder.addHeader("TesterName", userName);
 
-
         //create RequestSpecification and add logging
 
         //RequestSpecification requestSpec = builder.build().log().all();
         RequestSpecification requestSpec = builder.build();
         return requestSpec;
 
-
-
     }
-
 
     //Add  URL to request specification
 
@@ -115,19 +110,7 @@ public class RestAssuredHelper {
         requestSpec.baseUri(url);
         return requestSpec;
 
-
-
     }
-
-
-
-
-
-
-
-
-
-
 
     //----------------------------------------------------------------------------------------------------------------
     //     Validate response
@@ -230,32 +213,6 @@ public class RestAssuredHelper {
         return (response.headers().hasHeaderWithName(name));
     }
 
-    //Validate if node present on response
-    //this is standard RestAssured method. Path should be on Rest Assured format.
-    // It does not work for that way how we present Arrays on Watchmen.
-    //use JSONHelper instead
-/*
-    public Boolean isNodePresentedOnBody(ResponseOptions<Response> response, String name) {
-
-        try {
-            if (!(response.body().path(name) == null)) {
-                logger.debug("Validate If Node " + name + " presented on Body = true");
-                return true;
-            } else {
-                logger.debug("Validate If Node " + name + " presented on Body = false");
-                return false;
-            }
-        }
-        catch (Exception e) {
-            logger.debug("Validate If Node " + name + " presented on Body = false");
-            return false;
-        }
-
-    }
-    */
-
-
-
     //Get response headers value
 
     public String getHeaderValueFromResponse(ResponseOptions<Response> response, String headerName) {
@@ -300,8 +257,6 @@ public class RestAssuredHelper {
         }
         return valReturn;
     }
-
-
 
 
 
