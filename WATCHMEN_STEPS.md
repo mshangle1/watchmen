@@ -13,9 +13,14 @@
 ---
 
 
-- **I want to call API Endpoint "<>""**
+- **I want to call API Endpoint "<>"**
     - Create new instance of RequestSpecBuilder
     and add to the RequestSpecBuilder URL provided on the step (after resolving all placeholders) and Proxy host and port (config.properties file) if useProxy=true
+    
+    - Example: I want to call API Endpoint \"https://dev.ally.com/{{alerts_endpoint}}\"
+               
+        where "alerts_endpoint" has to be provided on config.properties or as a runtime variable
+
 ---
     
 - **I provide basePath as "<>"**
