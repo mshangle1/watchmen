@@ -43,8 +43,8 @@
            I provide basePath as "/path1/{{path2}}/<path3>/"
            
     
-    "basePath", "path2" have to be provided on config.properties or as a runtime variable
-    "path3" has to be saved on the previous steps on the Scenario scope 
+    "basePath", "path2" have to be provided on config.properties or as a runtime variable,
+    "path3" has to be saved on the previous steps in the Scenario scope 
 ---
 
 - **I provide path variables as data Table:
@@ -61,8 +61,8 @@
                |path4|{{account_id}}  |
                  
         
-     "account_id" has to be provided on config.properties or as a runtime variable
-     "booster_id" has to be saved on the previous steps on the Scenario scope 
+     "account_id" has to be provided on config.properties or as a runtime variable,
+     "booster_id" has to be saved on the previous steps in the Scenario scope 
 ---
 
 - **I provide query parameters as data Table:
@@ -80,8 +80,8 @@
                    
                      
             
-     "cid" has to be provided on config.properties or as a runtime variable
-     "account_id" has to be saved on the previous steps on the Scenario scope    
+     "cid" has to be provided on config.properties or as a runtime variable,
+     "account_id" has to be saved on the previous steps in the Scenario scope    
 ---
 
 - **I provide query parameter "key" as "values"**
@@ -89,14 +89,14 @@
     
      - Examples: 
                
-                       I provide query parameter "lob" as "auto"
-                       I provide query parameter "lob" as "auto,deposit"
-                       I provide query parameter "lob" as "{{lob1}},{{lob2}}"
-                       I provide query parameter "Account" as "<account_id>"
+               I provide query parameter "lob" as "auto"
+               I provide query parameter "lob" as "auto,deposit"
+               I provide query parameter "lob" as "{{lob1}},{{lob2}}"
+               I provide query parameter "Account" as "<account_id>"
                                                 
                 
-      "lob1" and "lob2" have to be provided on config.properties or as a runtime variable
-      "account_id" has to be saved on the previous steps on the Scenario scope
+     "lob1" and "lob2" have to be provided on config.properties or as a runtime variable,
+     "account_id" has to be saved on the previous steps in the Scenario scope
     
 ---
 
@@ -114,8 +114,8 @@
                        |lob       |auto        |
                                           
                 
-         "cid" has to be provided on config.properties or as a runtime variable
-         "account_id" has to be saved on the previous steps on the Scenario scope  
+      "cid" has to be provided on config.properties or as a runtime variable,
+      "account_id" has to be saved on the previous steps in the Scenario scope  
 ---
 
 - **I provide headers as csv file "file_name.csv"**
@@ -127,70 +127,229 @@
     |cookie|value |**
     - Read data table and for the each row resolve placeholders and add to the request specification:
        <cookie_name = cookie_value>
+       
+     - Examples: 
+                   
+                  I provide cookies as data Table:
+                           
+                           |isExternal|true        |
+                           |accountId |<account_id>|
+                           |customer  |{{cid}}     |
+                           |lob       |auto        |
+                                              
+                    
+      "cid" has to be provided on config.properties or as a runtime variable,
+      "account_id" has to be saved on the previous steps in the Scenario scope    
 ---
        
 - **I provide body as String: "my payload"**
     - Add to the request specification body as a String
+    
+     - Examples: 
+                   
+                   I provide body as String: "{"id":123}"
+                   I provide body as String: "" Accepted! ""
+                   I provide body as String: "{{payload}}"
+                                                    
+                    
+         "payload" has to be provided on config.properties or as a runtime variable,
 ---
     
 - **I provide body as raw JSON file "payload.json"**
     - Read "payload.json" file, resolve all placeholders and if it exists add to the request specification body as a String
+    
+    - Examples: 
+                   
+                  I provide body as raw JSON file "testData/alerts/deposit.json"
+                  I provide body as raw JSON file "testData/{{env}}/alerts/deposit.json"
+                                              
+                    
+    "env" has to be provided on config.properties or as a runtime variable,
+   
 ---
 
 - **I provide body as raw XML file "filename"**
     - Read "payload.xml" file, resolve all placeholders and if it exists add to the request specification body as a String  
+    
+    - Examples: 
+                       
+                I provide body as raw XML file "testData/alerts/deposit.xml"
+                I provide body as raw XML file "testData/{{env}}/alerts/deposit.xml"
+                                                  
+                        
+    "env" has to be provided on config.properties or as a runtime variable,
 ---
 
 - **I provide form data as data Table:
     |data|value |**
-    - Read Data table and resolve all placeholders and add to the request specification: FormParams               
+    - Read Data table and resolve all placeholders and add to the request specification: FormParams  
+    
+    - Examples: 
+                       
+             I provide form data as data Table:
+                               
+                   |isExternal|true        |
+                   |accountId |<account_id>|
+                   |customer  |{{cid}}     |
+                   |lob       |auto        |
+                                                  
+                        
+     "cid" has to be provided on config.properties or as a runtime variable,
+     "account_id" has to be saved on the previous steps in the Scenario scope               
 ---
 
 - **I provide form data as csv file "file_name.csv"**
     - Read "file_name.json" file, resolve all placeholders and if it exists - resolve all placeholders and add to the request specification: FormParams
       File must be stored under resources, first row of the file will be skipped as it is header
+      
+      - Examples: 
+                             
+                 I provide form data as csv file "testData/alerts/deposit.csv"
+                 I provide form data as csv file "testData/{{env}}/alerts/deposit.csv"
+                                                        
+                              
+       "env" has to be provided on config.properties or as a runtime variable,
 ---
 
 - **I provide my token "token" as a Bearer token on Authorization header**
     - Resolve placeholdersBearer for token and add "Bearer" followed by a space and token as Authorization header
+    
+    
+    - Examples: 
+                                 
+                I provide my token "1234567890" as a Bearer token on Authorization header
+                I provide my token "{{alerts_access_token}}" as a Bearer token on Authorization header
+                I provide my token "<access_token>" as a Bearer token on Authorization header
+                                                            
+                                  
+    "alerts_access_token" has to be provided on config.properties or as a runtime variable,
+    "access_token" has to be saved on the previous steps in the Scenario scope 
 ---
 
 - **I provide user name "user" and password "pwd" as a Basic authentication on Authorization header**
     - Resolve placeholders for user and password and add "Basic" followed by base64-encoded string user:password as Authorization header
+    
+    - Examples: 
+                                     
+               I provide user name "Olga.Ermolova" and password "123456" as a Basic authentication on Authorization header
+               I provide user name "{{alerts_user}}" and password "{{alerts_pwd}}" as a Basic authentication on Authorization header
+               I provide user name "<new_user>" and password "{{basic_pwd}}" as a Basic authentication on Authorization header   
+                                                                
+                                      
+     "alerts_user","alerts_pwd",'basic_pwd" have to be provided on config.properties or as a runtime variable,
+     "new_user" has to be saved on the previous steps in the Scenario scope 
 ---
 
 - **I set JSON body node "JSON_node_path" to "value"**
     - Read request specification body, locate requested body node using JSON_node_path. New node value (after resolving all placeholders) will replace the old value 
       Assign updated Json as new Request payload.
+      
+      Syntax: 
+      If you have to set value as a String - please use format ""..."" ( example - ""Anna"", ""29708""),
+      
+      If you have to set value as a Number or Boolean -please use format "..." (example - "29708", "true")
+      
+      - Examples: 
+                                           
+                  I set JSON body node "customer.firstName" to ""Anna""  
+                  I set JSON body node "customer.isActive" to "true"
+                  I set JSON body node "customer.firstName" to ""{{new_name}}""
+                  I set JSON body node "customer.firstName" to "<first_name>"
+                  I set JSON body node "customer.dob" to "%yearsAgo(25)%"
+                  I set JSON body node "customer.dob" to "%yearsAgo(25,MM/dd/yyyy)%"
+                                                                      
+                                            
+       "new_name" has to be provided on config.properties or as a runtime variable,
+       "first_name" has to be saved on the previous steps in the Scenario scope,
+       "yearsAgo(25)" Watchmen will generate on a runtime 
 ---
 
 - **And I set JSON body node to value:
     |JSON_node_path|value |**
     - Read data table and for the each row: read request specification body, locate requested body node using JSON_node_path. New node value (after resolving all placeholders) will replace the old value 
       Assign updated Json as new Request payload.
+      
+     Syntax: 
+         If you have to set value as a String - please use format "..." ( example - "Anna", "29708"),
+         If you have to set value as a Number or Boolean -please use format ... (example - 29708, true) 
+           
+      - Examples:                                                          
+            
+           And I set JSON body node to String:
+           
+             |customer.firstName      |"Anna"        |
+             |customer.isActive       |true          |
+             |customer.dob            |%yearsAgo(25)%|
+             |customer.address.zip    |"<zip>"       |
+             |customer.address.country|"{{country}}" |
+         
+             
+       "country" has to be provided on config.properties or as a runtime variable,
+       "zip" has to be saved on the previous steps in the Scenario scope,
+       "yearsAgo(25)" Watchmen will generate on a runtime          
 ---
 
 - **I add JSON node "node_name" to Parent node "parent_JSON_path" as value "value"**
     - Read request specification body, locate requested parent body node using parent_JSON_path,
       Add new node "node_name" under parent node with new value after resolving all placeholders.
       Assign updated Json as Request payload
+      
+    Syntax: 
+    If you have to add as a  String - please use format ""..."" ( example - ""Anna"", ""29708"")
+    
+    If you have to add as a Numeric or boolean  -please use format "..." (example - "29708", "true")  
+    
+    
+    - Examples: 
+                                               
+               I add JSON node "zip" to Parent node "customer.address" as String ""28203""  
+               I add JSON node "city" to Parent node "customer.address" as String ""{{city}}"" 
+               I add JSON node "" to Parent node "applicants.get(1).addresses" as String "{"addressLine1": "123 new street","city": "Sunny city"}"
+                                                            
+                                                
+           "city" has to be provided on config.properties or as a runtime variable,
+          
+      
 ---
 
 - **I add JSON node "node_name" to Parent node "parent_JSON_path" as raw JSON "file.json"**
     - Read request specification body, locate requested parent body node using parent_JSON_path,
       Add new node "node_name" under parent node, Resolve all placeholders for the file name, Read file content as a String
       and set new node value as content of the file. Assign updated Json as Request payload
+      
+      - Examples: 
+                                                     
+                 I add JSON node "Residential" to Parent node "applicant.get(1).addresses" as raw JSON "data/address.json" 
+                 I add JSON node "Residential" to Parent node "applicant.get(1).addresses" as raw JSON "data/{{env}}/address.json" 
+                                                                                      
+                                                      
+      "env" has to be provided on config.properties or as a runtime variable
+                
 ---
 
 - **I add new item to JSON Array node "arrayNode_jsonPath" as raw JSON "file.json""**
     - Read request specification body, locate requested node of type Array using arrayNode_jsonPath,
       Resolve all placeholders for the file name and read file content as a String.
       Add new item to the array node as file content. Assign updated Json as Request payload
+      
+       - Examples: 
+                                                           
+                   I add new item to JSON Array node "applicants" as raw JSON "data/valid_applicant.json" 
+                   I add new item to JSON Array node "applicants" as raw JSON "data/{{env}}/valid_applicant.json" 
+                                                                                            
+                                                            
+       "env" has to be provided on config.properties or as a runtime variable
 ---
 
 - **I remove JSON body node "JSON_node_path"**
     - Read request specification body, locate requested body node using JSON_node_path.
       Remove node and assign updated Json as Request payload
+      
+    - Examples: 
+                 
+               I remove JSON body node "customer.get(1).first_name"                                            
+                                                              
+      
 ---
       
 - **I copy JSON tree from "parent.node" and add it under Array node "new_parent.node"**
