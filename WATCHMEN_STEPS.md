@@ -125,7 +125,7 @@
      - Examples:  
                   
                     I provide headers as csv file "data/alerts/headers.csv"
-                    I provide headers as csv file "data/{{env}}alerts/headers.csv"
+                    I provide headers as csv file "data/{{env}}/alerts/headers.csv"
      
      "env" has to be provided on config.properties or as a runtime variable          
 ---
