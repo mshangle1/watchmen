@@ -73,14 +73,6 @@ public class RestAssuredHelper {
 
         //Create New request specification
         //This is very first step to build request
-        //Define Ally Proxy settings
-        //Add header with Tester name for debugging
-        //Invoke Request-Response logging
-
-
-        //Ally Proxy reactivate tunnel settings
-        System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
-
 
         //initialize RequestSpecBuilder
         RequestSpecBuilder builder = new RequestSpecBuilder();
@@ -90,13 +82,6 @@ public class RestAssuredHelper {
             logger.debug("Set Proxy = "+host+":"+port);
             builder.setProxy(host, Integer.parseInt(port));}
 
-
-        //add header with tester name to the builder
-        //builder.addHeader("TesterName", userName);
-
-        //create RequestSpecification and add logging
-
-        //RequestSpecification requestSpec = builder.build().log().all();
         RequestSpecification requestSpec = builder.build();
         return requestSpec;
 

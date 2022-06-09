@@ -121,6 +121,13 @@
 - **I provide headers as csv file "file_name.csv"**
     - Read "file_name.csv" file resolve all placeholders and add to the request specification header = value.
       File must be stored under resources, first row of the file will be skipped as it is header
+      
+     - Examples:  
+                  
+                    I provide headers as csv file "data/alerts/headers.csv"
+                    I provide headers as csv file "data/{{env}}alerts/headers.csv"
+     
+     "env" has to be provided on config.properties or as a runtime variable          
 ---
       
 - **I provide cookies as data Table:
