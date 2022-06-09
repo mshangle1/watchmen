@@ -81,7 +81,6 @@ public class TestScope {
         this.responseToValidate = rq;
     }
 
-
     public void setResponse(ResponseOptions<Response> r)
     {
         this.response = r;
@@ -167,7 +166,6 @@ public class TestScope {
 
         if (getJsonContainer().containsKey(key)) return getJsonContainer().get(key);
         else {
-            System.out.println("Was not able to get "+key+" from Json Container");
             logger.error("Was not able to get "+key+" from Json Container");
             throw new RuntimeException("was not able to get "+key+" from Json Container");
         }
