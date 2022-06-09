@@ -1,0 +1,13 @@
+
+{
+"errors":
+    [
+        {
+        "id": "W-ALLY-APIP-404",
+        "code": "404",
+        "title": "Not Found",
+        "detail": ""Raising fault. Fault name : rfEmpty404""
+        }
+    ]
+}
+        

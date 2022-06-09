@@ -54,7 +54,7 @@ public class SpringConfig {
     Environment env;
 
     public SpringConfig() {
-        System.out.println("WATCHMEN 1.0 started");
+        System.out.println("WATCHMEN started");
     }
 
 

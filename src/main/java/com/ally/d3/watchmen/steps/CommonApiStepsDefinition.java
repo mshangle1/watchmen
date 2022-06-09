@@ -539,8 +539,8 @@ public class CommonApiStepsDefinition {
     public void sendRequest(String requestType) {
 
         logger.info("Step: I send " + requestType + " request");
-        testScope.responseToValidate = requestHelper.executeRequestToValidate(requestType);
-        testScope.response = testScope.responseToValidate.extract().response();
+        testScope.setResponseToValidate(requestHelper.executeRequestToValidate(requestType));
+        testScope.setResponse(testScope.getResponseToValidate().extract().response());
         logger.trace(" \nResponse time: " + responseHelper.getResponseTime()+" milliseconds");
     }
 
@@ -562,12 +562,11 @@ public class CommonApiStepsDefinition {
 
     private Boolean executeRequestValidateStatusCode(String requestType, Integer statusCode) {
 
-        testScope.responseToValidate = requestHelper.executeRequestToValidate(requestType);
-        ResponseOptions<Response> response = testScope.responseToValidate.extract().response();
-        testScope.response = response;
-        logger.debug("Response status code is " + response.getStatusCode());
+        testScope.setResponseToValidate(requestHelper.executeRequestToValidate(requestType));
+        testScope.setResponse(testScope.getResponseToValidate().extract().response());
+        logger.debug("Response status code is " + testScope.getResponse().getStatusCode());
         logger.trace(" \nResponse time: " +responseHelper.getResponseTime()+" milliseconds");
-        return response.getStatusCode() == statusCode;
+        return testScope.getResponse().getStatusCode() == statusCode;
     }
 
 

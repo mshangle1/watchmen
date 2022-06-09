@@ -40,65 +40,107 @@ import java.util.Map;
 
 public class TestScope {
 
-    public static ValidatableResponse responseToValidate;
-
-    public static ResponseOptions<Response> response;
-
-    public static RequestSpecification requestSpec;
-
-    public static StringBuilder requestBasePath =  new StringBuilder();
-
-    public static Map<String, String> container = new HashMap<>();
-
-    public static Map<String, JsonNode> jsonContainer = new HashMap<>();
-
-    private static final Logger logger = LoggerFactory.getLogger(TestScope.class);
-
-
-
     @Autowired
     RestAssuredHelper restAssuredHelper;
 
     @Value("${useProxy:false}")
     private Boolean useProxy;
 
+
+    private ValidatableResponse responseToValidate;
+
+    private ResponseOptions<Response> response;
+
+    private RequestSpecification requestSpec;
+
+    private StringBuilder requestBasePath =  new StringBuilder();
+
+    private Map<String, String> container = new HashMap<>();
+
+    private Map<String, JsonNode> jsonContainer = new HashMap<>();
+
+    private static final Logger logger = LoggerFactory.getLogger(TestScope.class);
+
+
+    public ValidatableResponse getResponseToValidate() { return responseToValidate; }
+
+    public ResponseOptions<Response> getResponse() { return response; }
+
+    public RequestSpecification getRequestSpec() { return requestSpec; }
+
+    public StringBuilder getRequestBasePath() { return requestBasePath; }
+
+    public Map<String, String> getContainer() { return container; }
+
+    public Map<String, JsonNode> getJsonContainer() { return jsonContainer; }
+
+
+
+    public void setResponseToValidate(ValidatableResponse rq)
+    {
+        this.responseToValidate = rq;
+    }
+
+
+    public void setResponse(ResponseOptions<Response> r)
+    {
+        this.response = r;
+    }
+
+    public void setRequestSpec(RequestSpecification rs)
+    {
+        this.requestSpec = rs;
+    }
+
+    public void setRequestBasePath(StringBuilder bp)
+    {
+        this.requestBasePath = bp;
+    }
+
+    public void setContainer(Map<String, String> c)
+    {
+        this.container = c;
+    }
+
+    public void setJsonContainer(Map<String, JsonNode> jn)
+    {
+        this.jsonContainer = jn;
+    }
+
+
+
     //To avoid leaking between scenarios need to reset all variables
     public void reset (){
 
-        response = null;
-        responseToValidate =null;
-        requestBasePath =  new StringBuilder();
-        //bodyJsonTree=null;
-        //bodyXmlDoc=null;
-        container = new HashMap<>();
-        jsonContainer = new HashMap<>();
-        requestSpec = restAssuredHelper.startNewRequestSpecification(useProxy);
+        setResponse(null);
+        setResponseToValidate(null);
+        setRequestBasePath(new StringBuilder());
+        setContainer(new HashMap<>());
+        setJsonContainer (new HashMap<>());
+        setRequestSpec(restAssuredHelper.startNewRequestSpecification(useProxy));
     }
 
     //If you need to chain few API calls in one scenario
     public void resetPreviousAPICall(){
 
-        response = null;
-        requestSpec = restAssuredHelper.startNewRequestSpecification(useProxy);
-        responseToValidate =null;
-        requestBasePath =  new StringBuilder();
-        //bodyJsonTree=null;
-        //bodyXmlDoc=null;
+        setResponse(null);
+        setRequestSpec(restAssuredHelper.startNewRequestSpecification(useProxy));
+        setResponseToValidate(null);
+        setRequestBasePath(new StringBuilder());
     }
 
     public void resetPreviousAPICallAndSwitchProxy(){
 
-        response = null;
-        requestSpec = restAssuredHelper.startNewRequestSpecification(!useProxy);
-        responseToValidate =null;
-        requestBasePath =  new StringBuilder();
-        //bodyJsonTree=null;
-        //bodyXmlDoc=null;
+        setResponse(null);
+        setRequestSpec(restAssuredHelper.startNewRequestSpecification(!useProxy));
+        setResponseToValidate(null);
+        setRequestBasePath (new StringBuilder());
+
     }
 
     public void saveInContainer(String key, String  val){
 
-        container.put(key,val);
+        getContainer().put(key,val);
         logger.debug("Save in container "+key+" = "+val);
         logger.trace(" \nSave in container "+key+" = "+val);
         logger.info(" \nSave in container "+key+" = "+val);
@@ -106,7 +148,7 @@ public class TestScope {
 
     public String getFromContainer(String key){
 
-        if (container.containsKey(key)) return container.get(key);
+        if (getContainer().containsKey(key)) return getContainer().get(key);
         else {
             logger.error("Was not able to get "+key+" from Scenario Scope");
             throw new RuntimeException("was not able to get "+key+" from Scenario Scope");
@@ -116,14 +158,14 @@ public class TestScope {
 
     public void saveInJsonContainer(String key, JsonNode  json){
 
-        jsonContainer.put(key,json);
+        getJsonContainer().put(key,json);
         logger.debug("Save to JSON container "+key);
         logger.debug("Save to the JSON container "+key);
     }
 
     public JsonNode getFromJsonContainer(String key){
 
-        if (jsonContainer.containsKey(key)) return jsonContainer.get(key);
+        if (getJsonContainer().containsKey(key)) return getJsonContainer().get(key);
         else {
             System.out.println("Was not able to get "+key+" from Json Container");
             logger.error("Was not able to get "+key+" from Json Container");

@@ -157,14 +157,6 @@ public class AwsParameterStoreHelper {
 
            try{
 
-               //AWSSimpleSystemsManagement ssm =  AWSSimpleSystemsManagementClientBuilder.standard().build();
-
-               //BasicSessionCredentials temporaryCredentials = new BasicSessionCredentials(aws_access_key_id, aws_secret_access_key, aws_session_token);
-
-               //awsSimpleSystemsManagementClient = AWSSimpleSystemsManagementClientBuilder.standard()
-               //        .withCredentials(new AWSStaticCredentialsProvider(temporaryCredentials))
-               //        .withRegion(region).build();
-
                awsSimpleSystemsManagementClient = AWSSimpleSystemsManagementClientBuilder.defaultClient();
 
            } catch (Exception e) {

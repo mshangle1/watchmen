@@ -289,7 +289,7 @@ public class PlaceholderResolve {
             case '{':
                 return environment.getProperty(placeholderKey, defaultValue);
             case '<':
-                return tempScope.getOrDefault(placeholderKey, TestScope.container.getOrDefault(placeholder, defaultValue));
+                return tempScope.getOrDefault(placeholderKey, testScope.getContainer().getOrDefault(placeholder, defaultValue));
             case '%':
                 String[] arguments = new String[0];
                 int argStart = placeholder.indexOf("(");
