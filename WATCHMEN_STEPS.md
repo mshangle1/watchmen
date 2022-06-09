@@ -886,7 +886,7 @@
                           
              
         
-        "query_CustomerId_ByName.sql" has to be stored under Resources and contains SQL query            
+     "query_CustomerId_ByName.sql" has to be stored under Resources and contains SQL query            
                            
 ---
       
@@ -919,11 +919,26 @@
 - **Saved JSON "Json_name" node "Json_path" contains value "value"**
     - Resolve all placeholders for value. Read Json "Json_name" from the Scenario Scope.
       Assert that json_path value contains expected value (ignoring case).
+   
+    - Examples:  
+              
+                    Saved JSON "Customer_1" node "name" contains value "Anna"
+                    Saved JSON "Customer_1" node "SSN" contains value "<ssn>"
+          
+     "ssn" has to be saved on the previous steps in the Scenario scope  
+      
 ---
     
 - **Saved JSON "Json_name" node "Json_path" equals to value "value"**
     - Resolve all placeholders for value. Read Json "Json_name" from the Scenario Scope.
       Assert that json_path value equals to value (ignoring case).
+      
+    - Examples:  
+                 
+                    Saved JSON "Customer_1" node "name" equals to value "Anna"
+                    Saved JSON "Customer_1" node "SSN" equals to value "<ssn>"
+             
+     "ssn" has to be saved on the previous steps in the Scenario scope    
 ---
     
 - **I request pre-signed URL and publicKey**
@@ -935,55 +950,143 @@
     
 - **I read publicKey from Url "publicKeyURL" and save as a file "publicKeyFile_name"**
     - Resolve placeholders for publicKeyURL and read public key from Url and save it as txt file.
+    
+    - Examples:  
+                     
+               I read publicKey from Url "<publicKeyURL>" and save as a file "public_key.txt"
+             
+                 
+    "publicKeyURL" has to be saved on the previous steps in the Scenario scope
+    
 ---
     
 - **And I encrypt file "file_name" with publicKey "publicKeyFile_name" and send PUT request to the S3 pre-signed URL "pre-signed URL" with the headers:
      |header|value|**
+    - Resolve all placeholders for file_name and publicKeyFile_name
     - Read file "file_name". Read public_key from publicKeyFile_name. Encrypt file with public_key using PGP encryption
       Read headers from data table. Resolve all placeholders for headers and upload encrypted file to the pre-signed URL
       (PUT request) with the headers. 
+      
+    - Examples:  
+                         
+             I encrypt file "data/{{env}}/alertTrigger.json" with publicKey "public_key.txt" and send PUT request to the S3 pre-signed URL "<uploadUrl>" with the headers:
+                 |Content-Type                |       |
+                 |x-amz-server-side-encryption|aws:kms|
+                 
+    "env" has to be provided on config.properties or as a runtime variable,                 
+    "uploadUrl" has to be saved on the previous steps in the Scenario scope
+      
 ---
     
 - **And I encrypt file "file_name" with publicKey "publicKeyFile_name" using armored format and send PUT request to the S3 pre-signed URL "pre-signed URL" with the headers:
      |header|value|**
+    - Resolve all placeholders for file_name and publicKeyFile_name
     - Read file "file_name". Read public_key from publicKeyFile_name. Encrypt file with public_key using PGP encryption with armored format.
       Read headers from data table. Resolve all placeholders for headers and upload encrypted file to the pre-signed URL
       (PUT request) with the headers.
+      
+    - Examples:  
+                             
+              I encrypt file "data/{{env}}/alertTrigger.json" with publicKey "public_key.txt" using armored format and send PUT request to the S3 pre-signed URL "<uploadUrl>" with the headers:
+                |Content-Type                |       |
+                |x-amz-server-side-encryption|aws:kms|
+                     
+        "env" has to be provided on config.properties or as a runtime variable,                 
+        "uploadUrl" has to be saved on the previous steps in the Scenario scope
+          
 ---
     
 - **I assert that numeric "numeric1" is equal to "numeric2"**
     - Resolve all type of placeholders for numeric1 and numeric2
       Assert ignoring numeric format (25 = 25.00)
+      
+      - Examples:  
+                                   
+                   I assert that numeric "23" is equal to "23.0"
+                   I assert that numeric "<saved_age>" is equal to "18"
+                                           
+      "saved_age" has to be saved on the previous steps in the Scenario scope
 ---
     
 - **I assert that numeric "numeric1" is bigger than "numeric2"**
     - Resolve all type of placeholders for numeric1 and numeric2
       Assert ignoring numeric format (25 = 25.00)
+      
+    - Examples:  
+                                       
+                    I assert that numeric "45.5" is bigger than "30"
+                    I assert that numeric "%randomNumber(3)%" is bigger than "<saved_age>"
+                    I assert that numeric "<saved_Age>" is bigger than "25"
+                                               
+     "saved_age" has to be saved on the previous steps in the Scenario scope 
+     "randomNumber(3)" Watchmen will generate at a runtime
+      
 ---
     
 - **I assert that numeric "numeric1" is not equal to "numeric2"**
     - Resolve all type of placeholders for numeric1 and numeric2
-      Assert ignoring numeric format (25 = 25.00)        
+      Assert ignoring numeric format (25 = 25.00)       
+      
+    - Examples:  
+                                           
+                      I assert that numeric "23" does not equal to "345"                    
+                      I assert that numeric "<price>" does not equal to "{{price}}"
+                                                   
+     "price" has to be saved on the previous steps in the Scenario scope,
+     "price" has to be provided on config.properties or as a runtime variable
+   
 ---
         
 - **I assert that string "string1" contains "string2"**
     - Resolve all type of placeholders for string1 and string2
-      Assert ignoring case         
+      Assert ignoring case  
+      
+    - Examples:  
+                                               
+               I assert that string "Application submitted" contains "submitted"                
+               I assert that string "<app_status>" contains "submitted"
+                                                       
+    "app_status" has to be saved on the previous steps in the Scenario scope, 
+            
 ---
         
 - **I assert that string "string1" does not contain "string2"**
     - Resolve all type of placeholders for string1 and string2
       Assert ignoring case            
+      
+    - Examples:  
+                                                                 
+               I assert that string "<app_status>" does not contain "submitted"
+                                                           
+     "app_status" has to be saved on the previous steps in the Scenario scope   
+      
 ---
             
  - **I assert that string "string1" is equal to  "string2"**
      - Resolve all type of placeholders for string1 and string2
-       Assert ignoring case            
+       Assert ignoring case      
+       
+     - Examples:  
+                                                                      
+                I assert that string "Application submitted" is equal to "<app_status>"                
+                I assert that string "<app_status>" is equal to "{{app_status}}"
+                                                                
+     "app_status" has to be saved on the previous steps in the Scenario scope, 
+     "app_status" has to be provided on config.properties or as a runtime variable        
 ---
       
 - **I assert that string "string1" is not equal to "string2"**
     - Resolve all type of placeholders for string1 and string2
-      Assert ignoring case            
+      Assert ignoring case 
+      
+    - Examples:  
+                                                                          
+                 I assert that string "Application submitted" is not equal to  "<app_status>"         
+                 I assert that string "<app_status>" is not equal to  "{{app_status}} "
+                                                                    
+     "app_status" has to be saved on the previous steps in the Scenario scope, 
+     "app_status" has to be provided on config.properties or as a runtime variable  
+                
 ---
       
 - **I clear my previous API call**
@@ -996,7 +1099,13 @@
       requestSpec = restAssuredHelper.startNewRequestSpecification();
       requestBasePath = new StringBuilder();
       
-      TestScope (Container and Json Container where we store needed data) not being cleaned up.   
+      TestScope (Container and Json Container where we store needed data) not being cleaned up. 
+      
+      - Examples: 
+       
+                 I clear my previous API call                                                               
+                       
+                                                                            
 ---
       
 - **I clear my previous API call and switch Proxy**
@@ -1010,7 +1119,11 @@
       requestSpec = restAssuredHelper.startNewRequestSpecification();
       requestBasePath = new StringBuilder();
       
-      TestScope (Container and Json Container where we store needed data) not being cleaned up.   
+      TestScope (Container and Json Container where we store needed data) not being cleaned up.  
+      
+      - Examples: 
+             
+                  I clear my previous API call and switch Proxy 
       
 ---
       
@@ -1053,6 +1166,10 @@
 - **I wait for (\d+) seconds**
   - Watchmen will wait for <> seconds. Please be aware that wait time is not optimized - even if desired condition is already true, 
   tests execution still sleeping for requested amount of time.  
+  
+   - Examples: 
+                
+                I wait for 5 seconds 
 
 ---
 
