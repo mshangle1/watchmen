@@ -255,8 +255,8 @@
                   I set JSON body node "customer.isActive" to "true"
                   I set JSON body node "customer.firstName" to ""{{new_name}}""
                   I set JSON body node "customer.firstName" to "<first_name>"
-                  I set JSON body node "customer.dob" to "%yearsAgo(25)%"
-                  I set JSON body node "customer.dob" to "%yearsAgo(25,MM/dd/yyyy)%"
+                  I set JSON body node "customer.dob" to ""%yearsAgo(25)%""
+                  I set JSON body node "customer.dob" to ""%yearsAgo(25,MM/dd/yyyy)%""
                                                                       
                                             
        "new_name" has to be provided on config.properties or as a runtime variable,
@@ -277,11 +277,11 @@
             
            And I set JSON body node to String:
            
-             |customer.firstName      |"Anna"        |
-             |customer.isActive       |true          |
-             |customer.dob            |%yearsAgo(25)%|
-             |customer.address.zip    |"<zip>"       |
-             |customer.address.country|"{{country}}" |
+             |customer.firstName      |"Anna"          |
+             |customer.isActive       |true            |
+             |customer.dob            |"%yearsAgo(25)%"|
+             |customer.address.zip    |"<zip>"         |
+             |customer.address.country|"{{country}}"   |
          
              
        "country" has to be provided on config.properties or as a runtime variable,
@@ -356,76 +356,200 @@
     - Read request specification body, locate requested parent.node using JSON_node_path. Copy entire child JSON tree from the  parent.node
       Locate requested new_parent.node using JSON_node_path and paste copied JSON tree as a new item to the Array.
       Assign updated Json as Request payload
+      
+    - Examples: 
+    
+    
+            And I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Array node "applicants.get(1).addresses"
 ---
       
 - **I copy JSON tree from "parent.node" and add it under Parent node "new_parent.node" as new node "new_node.name"**
     - Read request specification body, locate requested parent.node using JSON_node_path, copy entire child JSON tree from the  parent.node
       Locate requested new_parent.node using JSON_node_path and add new node new_node.name. Set new_node.name as  a JSON tree. 
       Assign updated Json as Request payload
+      
+      - Examples: 
+          
+          
+          And I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Parent node "applicants.get(1).addresses.get(1)" as new node "Mailing"
 ---
        
 - **I set XML body node "Xpath" to "new_value"**
     - Using  this step you can change any node of type Element or Attribute on runtime. Read request specification body, locate requested body node using Xpath. New node value (after resolving all placeholders) will replace the old value 
-      Assign updated XML as a new Request payload.                        
+      Assign updated XML as a new Request payload.  
+      
+     Syntax: 
+         If you have to add as a  String - please use format ""..."" ( example - ""Anna"", ""29708"")   
+         If you have to add as a Numeric or boolean  -please use format "..." (example - "29708", "true")  
+          
+      
+   - Examples:                                                          
+                  
+              And I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""%uniqueSSN()%""
+              And I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""<saved_SSN>""
+              And I set XML body node "//CustomerInfo/Party/Contact//PostAddress/AddressLine" to ""Test 1""
+              And I set XML body node "(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4]" to ""Test 2""
+              And I set XML body node "//CustomerInfo/Party/Contact/@Type" to ""{{testType}}""
+               
+                   
+       "testType" has to be provided on config.properties or as a runtime variable,
+       "saved_SSN" has to be saved on the previous steps in the Scenario scope,
+       "uniqueSSN()" Watchmen will generate at a runtime   
+      
+                            
 ---
 
  - **I set XML body node to value:
        |Xpath|new_value|**
      - Using  this step you can change any node of type Element or Attribute on runtime. Read data table and for the each row: read request specification body, locate requested body node using Xpath. New node value (after resolving all placeholders) will replace the old value 
        Assign updated XML as a new Request payload. 
+       
+       Syntax: 
+               If you have to add as a  String - please use format "..." ( example - "Anna", "29708")   
+               If you have to add as a Numeric or boolean  -please use format ... (example - 29708, true)  
+                
+          
+   - Examples:     
+                                                           
+                        
+                    I set XML body node to String:
+                    
+                       |//CustomerInfo/Party/TaxIdentificationNumber |%uniqueSSN%|
+                       |//CustomerInfo/Party/TaxIdentificationNumber |<saved_SSN>|
+                       |//CustomerInfo/Party/Contact//PostAddress/AddressLine. |"Test 1" |
+                       |(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4] |"Test 2" |
+                     
+                         
+      
+       "saved_SSN" has to be saved on the previous steps in the Scenario scope,
+       "uniqueSSN()" Watchmen will generate at a runtime   
+       
 ---
        
 - **I add XML node "new_node_name" to Parent node "parent_Xpath" with value "new_node_value"**
     - Using this step you can add child node of type Element to any other XML node. Read request specification body, locate requested body node using Xpath. New node value (after resolving all placeholders) will be added. 
       Assign updated XML as a new Request payload. 
+    
+    Syntax: 
+             If you have to add as a  String - please use format "..." ( example - "Anna", "29708")   
+             If you have to add as a Numeric or boolean  -please use format ... (example - 29708, true)  
+                      
+      
+      
+   - Examples:     
+                                                               
+           And I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""Test""                    
+           And I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""%randomString(10)%""      
+                         
+                             
+     "randomString(10)" Watchmen will generate at a runtime    
+      
+      
 ---
       
 - **I add attribute "attr_name" to XML node "Xpath" with value "attr_value"**
     - Using this step you can add attribute to the node of type Element. Read request specification body, locate requested body node using Xpath. Add attribute (after resolving all placeholders).
-      Assign updated XML as a new Request payload.       
+      Assign updated XML as a new Request payload.    
+    Syntax: 
+                   If you have to add as a  String - please use format "..." ( example - "Anna", "29708")   
+                   If you have to add as a Numeric or boolean  -please use format ... (example - 29708, true)  
+                      
+      
+   - Examples:     
+                                                                     
+                 And I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String "ContactType"                  
+                 And I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String ""%randomString(ABC 567^&*#$%_*&)%""      
+                               
+                                   
+           "randomString(10)" Watchmen will generate at a runtime     
 ---
       
 - **I remove XML body node "Xpath"**
     - Using this step you can remove any node of type Element. Read request specification body, locate requested body node using Xpath. Remove node. 
-      Assign updated XML as a new Request payload.       
+      Assign updated XML as a new Request payload.  
+      
+    - Examples:     
+                
+                And I remove XML body node "(//CustomerInfo/Party/Contact//PostAddress)[2]"      
+                                          
 ---
       
       
 - **I remove attribute "atr_name" from XML body node "Xpath"**
     - Using this step you can remove any node of type Attribute.. Read request specification body, locate requested body node using Xpath. Remove attribute.
-      Assign updated XML as a new Request payload.       
+      Assign updated XML as a new Request payload.  
+      
+     - Examples:     
+                    
+                  And I remove attribute "Type" from XML body node "(//CustomerInfo/Party/Contact)[2]"      
+                             
 ---
       
 - **I send "GET|POST|PUT|DELETE" request**
     - Watchmen will use Request specification defined on all previous steps. Based on provided request type Watchmen will get() | post() | put() | delete()|patch()
       Result will be stored in scenarios scope as: testScope.responseToValidate
+      
+       - Examples:     
+                          
+                   I send "GET" request 
+                   I send "Get" request     
+                                
 ---
            
 - **I send "Request type" request and wait for the Response "Response code"**
     - Request being sent repeatedly once per second for X seconds till returned status code is as expected. Once timeout has exceeded and response is not as expected, step fails.
       By default request being executed once per second for 5 seconds. To change default polling time add to config.properties 
-      waitForResponseSeconds=X      
+      waitForResponseSeconds=X   
+      
+    - Examples:     
+                                
+                    I send "POST" request and wait for the Response "200"   
 ---
       
 - **Response has Status code: "Status code"**
-    - Assert that Response has expected status code       
+    - Assert that Response has expected status code   
+    
+    - Examples:     
+                                   
+            Response has Status code: "200"   
 ---
       
 - **Response has Content Type "Expected Content Type"**
     - Assert that Response has expected Content Type
+    
+    - Examples:    
+         
+           Response has Content Type "application/json; charset=utf-8"
 ---
       
 - **Response has response time < <integer> milliseconds**
-    - Assert that Response time less then expected (milliseconds)       
+    - Assert that Response time less then expected (milliseconds)  
+    
+    - Examples:    
+             
+               Response has response time < 5000 milliseconds     
 ---
       
 - **Response has next header with the name: "header_name"**
-    - Assert that Response has expected header      
+    - Assert that Response has expected header  
+    
+     - Examples:    
+                 
+                  Response has next header name: "Content-Location"      
 ---
             
 - **Response header "header_name" has next value: "value"**
     - Assert that Response has Header "header_name" and if true - Resolve all placeholders for the expected value
-      Assert that header has expected value ignoring case      
+      Assert that header has expected value ignoring case 
+      
+    - Examples:    
+                       
+                  Response header "Allow" has next value: "true"
+                  Response header "Allow" has next value: "{{allow}}" 
+                  Response header "Allow" has next value: "<saved_before>"     
+                  
+    "allow" has to be provided on config.properties or as a runtime variable,
+    "saved_before" has to be saved on the previous steps in the Scenario scope,            
 ---
       
 - **Response has ALL the headers from data Table:
@@ -433,12 +557,31 @@
     - Read data table and create list of expected headers. Assert that Response has all the headers from list.
       If some headers from the expected list missed on response - step fail.
       If response has some additional headers - step not fail
+      
+     - Examples:    
+                           
+                Response has ALL the headers from data Table:
+                        |Cache-Control      |
+                        |Location           |
+                        |Content-Location   |
+                        |Retry-After        |   
+      
 ---
     
 - **Response has ALL the headers from csv file: "headers.csv"**
      - Resolve all the placeholders for file name. Read file and build list, assert that Response has all the headers from list.
        If some headers from the expected list missed on response - step fail.
        If response has some additional headers - step not fail
+       
+     - Examples:    
+                            
+                 Response has ALL the headers from csv file: "data/headers.csv"               
+                 Response has ALL the headers from csv file: "data/{{env}}/headers.csv"    
+                       
+      
+      "env" has to be provided on config.properties or as a runtime variable,
+        
+       
 ---
        
 - **Response has ALL the headers from data Table and ONLY that:
@@ -446,23 +589,57 @@
     - Read data table and create list of expected headers. Assert that Response has all the headers from list.
       If some headers from the expected list missed on response - step fail.
       If response has some additional headers - step fail
+      
+    - Examples:    
+                              
+                Response has ALL the headers from data Table and ONLY that:
+                           |Cache-Control      |
+                           |Location           |
+                           |Content-Location   |
+                           |Retry-After        |   
+                              
 ---   
 - **Response has ALL the headers from csv file "file_name.csv" and ONLY that**
     - Resolve all the placeholders for file name. Read file and build list, 
       Read data table and create list of expected headers. Assert that Response has all the headers from list.
       If some headers from the expected list missed on response - step fail.
       If response has some additional headers - step fail
+      
+    - Examples:    
+                               
+                Response has ALL the headers from csv file "data/headers.csv" and ONLY that               
+                Response has ALL the headers from csv file  "data/{{env}}/headers.csv" and ONLY that    
+                          
+         
+    "env" has to be provided on config.properties or as a runtime variable,   
+      
 ---
     
 - **Response body JSON has Node: "JSON_node_path"**
     - Assert that Response body JSON has expected Node using JSON_node_path
+    
+    
+   - Examples:    
+                                   
+                    Response body JSON has Node: "customer.firstName"                 
+                              
 ---
     
-- **Response body JSON node equal to val:
+- **Response body JSON node equals to val:
      |JSON_node_path|value|**
     - Read Data table and for the each row: assert that Response body has expected node using JSON_node_path.
       If first step is true - resolve placeholders and Assert that Node value equals to "Value" ignoring case.
       Step Fails if node not found
+      
+    - Examples:   
+    
+               Response body JSON node equals to val: 
+                     |product.price2         |{{price}}     |
+                     |product.price3         |<saved_price> |
+                     |isOtsEligible          |true          |     
+                        
+    "price" has to be provided on config.properties or as a runtime variable,
+    "saved_price" has to be saved on the previous steps in the Scenario scope,
 ---
     
 - **Response body JSON node contains String:
@@ -470,6 +647,16 @@
     - Read Data table and for the each row: assert that Response body has expected node using JSON_node_path.
       If first step is true - resolve placeholders and Assert that Node value contains "Value" ignoring case.
       Step Fails if node not found
+      
+    - Examples:    
+    
+              Response body JSON node contains String:
+                         |product.price2         |{{price}}     |
+                         |product.price3         |<saved_price> |
+                         |isOtsEligible          |true          |     
+                            
+     "price" has to be provided on config.properties or as a runtime variable,
+     "saved_price" has to be saved on the previous steps in the Scenario scope,  
 ---
     
 - **Response body JSON node "JSON_node_path" is an array of size =XX**
@@ -477,12 +664,24 @@
       If first step is true - Assert that node is an array of expected size.
       If requested node is not an array but a single value - size = 0.
       Step Fails if node not found
+      
+     - Examples:    
+        
+               Response body JSON node "product.price" is an array of size =5    
+                                  
+     
 ---
     
 - **Response body JSON matches schema "schema.json"**
     - Assert that Response body JSON matches schema "schema.json" Path to the schema file can be provided using placeholders.
       If validation fails - report provided for further analyses.
       "schema.json" must be stored under Resources.
+      
+    - Examples:    
+            
+                   Response body JSON matches schema "data/{{env}}/approved_schema.json" 
+                      
+     "env" has to be provided on config.properties or as a runtime variable
 ---
     
 - **Response body JSON matches swagger file "file_path" schema "definition_pointer"**
@@ -490,49 +689,110 @@
       Read swagger file, locate schema on swagger file using definition_pointer and build json schema.
       Validate response using json schema. If validation fails - report provided for further analyses.
       Swagger file must be stored under Resources.
+      
+    - Examples:    
+                
+                Response body JSON matches swagger file "data/{{env}}/ccn.yaml" schema "/components/schemas/preferences" 
+                          
+     "env" has to be provided on config.properties or as a runtime variable 
 ---
     
 - **And Response body JSON matches JSON file "file_path"**
     - Resolve all placeholders for "file_path" and locate json file. Read response and assert response matches json file.
       Please see for more information: https://www.baeldung.com/jackson-compare-two-json-objects.
       In case of error Watchmen fails step and provide report where it is the difference 
+      
+       - Examples:    
+                      
+                   Response body JSON matches JSON file "data/{{env}}/expected_response.json" 
+                                
+        "env" has to be provided on config.properties or as a runtime variable 
 ---
+
+- **Response body XML has node: "Xpath"**
+    - Assert that Response body XML has expected node using xpath
+      
+    - Examples:    
+                      
+                  Response body XML has node: "//Status/Code"
+                  Response body XML has node: "//Status/Code/@Type" 
+                                
+        
+---    
     
 - **Response body XML node equals to val:
           |Xpath|value|**
     - Read Data table and for each row: assert that Response body has expected node using xpath.
       If first step is true - resolve placeholders and Assert that Node value equals to "Value" ignoring case
+      
+    - Examples:   
+          
+                     Response body XML node equals to val: 
+                          |//CustomerStatus/CustomerID/@Type.    |CIF               |
+                          |(//CustomerStatus/CustomerID/@Type)[2]|{{expected_type}} |
+                          |(//CustomerStatus/CustomerID.         |<custID>          |    
+                              
+       "expected_type" has to be provided on config.properties or as a runtime variable,
+       "custID" has to be saved on the previous steps in the Scenario scope,
 ---
                                                                   
 - **Response body XML node contains val:
     |Xpath|value|**
     - Read Data table and for each row: assert that Response body has expected node using xpath.
-      If first step is true - resolve placeholders and Assert that Node value contains "Value" ignoring case       
+      If first step is true - resolve placeholders and Assert that Node value contains "Value" ignoring case
+      
+    - Examples:   
+                
+                           Response body XML node contains val: 
+                                |//CustomerStatus/CustomerID/@Type.    |CIF               |
+                                |(//CustomerStatus/CustomerID/@Type)[2]|{{expected_type}} |
+                                |(//CustomerStatus/CustomerID.         |<custID>          |    
+                                    
+       "expected_type" has to be provided on config.properties or as a runtime variable,
+       "custID" has to be saved on the previous steps in the Scenario scope,       
 ---
            
 - **I store Response header "header_name" as "key" in the scenario scope**
     - If "header_name" found on the Response - store (key,header_value) in the Scenario scope.
       If "header_name" does not found on the Response  - step will Fail
+      
+    - Examples: 
+      
+          I store Response header "Connection" as "Connection" in scenario scope
+                      
 ---
 
 - **I store Cookie "cookie_name" as "key" in the scenario scope**
     - If "cookie" found on the Response - store (key,cookie_value) in the Scenario scope.
       If "cookie" does not found on the Response - step will Fai
+      
+    - Examples: 
+            
+                I store Cookie "CMSMSESSION" as "CMSMSESSION" in scenario scope
+                       
 ---
 
 - **I store JSON Response body node "JSON_node_path" as "key" in the scenario scope**
     - If "JSON_node_path"  found on the JSON Response - store (key,node_value) in the Scenario scope.
       If "JSON_node_path" not found on the Response -  step will Fail
+      
+    - Examples: 
+                
+                I store Response body node "method" as "method" in scenario scope
+                I store Response body node "Customers.get(1).SSN" as "SSN" in scenario scope 
+                I store Response body node "Customers.get(firstName=Anna).SSN" as "SSN" in scenario scope 
 ---
 
 - **I store XML Response body node "xpath" as "key" in the scenario scope**
-    - Assert that Response body XML has expected node using xpath
+    - If node found using "xpath" on the XML Response  - store (key,node_value) in he Scenario scope.
+          If node not found using "xpath"  -  step will Fail
+    
+    - Examples:
+    
+          And I store XML Response body node "//CustomerStatus/CustomerID" as "CustomerID" in scenario scope
+          And I store XML Response body node "(//CustomerStatus/CustomerID/@Type)[1]" as "CustomerID_Type" in scenario scope
 ---
 
-- **Response body XML has node: "Xpath"**
-    - If node found using "xpath" on the XML Response  - store (key,node_value) in he Scenario scope.
-      If node not found using "xpath"  -  step will Fail
----
 
 - **And I establish connection to Data Base "DB""**
     - Currently Watchmen supports Oracle DB and Aurora DB (aws) connection
@@ -540,16 +800,45 @@
     - By default (if spring.profiles.active not specified) there are no connection to any DB
     - On this step Watchmen will verify the connection to the Data Base SUCCESSFUL by executing "SELECT 1 FROM DUAL"
     - If provided DB credentials or URL connection are invalid - connection cannot be established and this step will fail
+    
+    - Examples:
+    
+          I establish connection to Data Base "Oracle"
+          I establish connection to Data Base "AuroraDB"
+    
 ---
 
 - **I query for Integer "sql_query" and store result as "key" in scenario scope**
     - Resolve placeholders for sql_query. If SQL provided as a file (*.sql)- locate file and read from file SQL query (one query per file).
       Execute SQL query. Cast result to Integer. Save result in Scenario Scope as a key.
+      
+      
+   - Examples:
+          
+                I query for Integer "SELECT Customerid FROM Customers WHERE CustomerName=Anna" and store result as "Customerid" in scenario scope                 
+                I query for Integer "data/{{env}}/query_Customerid.sql" and store result as "Customerid" in scenario scope
+                
+   
+   "env" has to be provided on config.properties or as a runtime variable,
+   "query_Customerid.sql" has to be stored under Resources and contains SQL query            
+                
+       
 ---
     
 - **I query for String "sql_query" and store result as "key" in scenario scope"**
     - Resolve placeholders for sql_query. If SQL provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
-      Execute SQL query. Cast result to String. Save result in Scenario Scope as a key.   
+      Execute SQL query. Cast result to String. Save result in Scenario Scope as a key. 
+      
+   - Examples:
+   
+             I query for String "SELECT CustomerName FROM Customers WHERE id=1234" and store result as "CustomerName" in scenario scope                         
+             I query for Integer "data/{{env}}/query_CustomerName.sql" and store result as "Customerid" in scenario scop
+                   
+      
+    "env" has to be provided on config.properties or as a runtime variable,
+    "query_CustomerName.sql" has to be stored under Resources and contains SQL query            
+                      
+        
 ---
     
 - **I query for String "sql_query" with parameters as Data Table and store result as "key" in scenario scope:
@@ -557,6 +846,24 @@
     - Resolve placeholders for sql query. If SQL query provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
       Resolve all placeholders for values from data table. Execute SQL query.
       Cast result to String. Save result in Scenario Scope as key  
+      
+   - Examples:
+      
+                I query for String "SELECT CustomerName FROM Customers WHERE CustomerId=:id" with parameters as Data Table and store result as "CustomerName" in scenario scope:
+                
+                |id|1234|
+                
+               
+                
+                I query for String "query_CustomerName_ById.sql" with parameters as Data Table and store result as "CustomerName" in scenario scope:
+                
+                |id|1234|
+                      
+         
+    
+    "query_CustomerName_ById.sql" has to be stored under Resources and contains SQL query            
+                            
+      
 ---
       
 - **I query for Integer "sql_query" with parameters as Data Table and store result as "key" in scenario scope:
@@ -564,18 +871,49 @@
     - Resolve placeholders for sql query. If SQL query provided as a file (*.sql) - locate file and read from file SQL query (one query per file).
       Resolve all placeholders for values from data table. Execute SQL query.
       Cast result to Integer. Save result in Scenario Scope as key   
+      
+    - Examples:
+          
+                    I query for Integer "SELECTCustomeridFROMCustomers WHERE CustomerName=:name" with parameters as Data Table and store result as "Customerid" in scenario scope:
+                    
+                    |name|Anna|
+                    
+                                                          
+                    
+                    I query for Integer "query_CustomerId_ByName.sql" with parameters as Data Table and store result as "Customerid" in scenario scope:
+                    
+                    |name|Anna|
+                          
+             
+        
+        "query_CustomerId_ByName.sql" has to be stored under Resources and contains SQL query            
+                           
 ---
       
 - **I query DynamoDB table "TableName" with Primary Key "PK" value "value" and Secondary Key "SK" value "value" and save result as JSON "Json_name"**
     - Establish connection to DynamoDB using settings from config.properties file.
       Resolve all placeholder for Primary Key value and Secondary Key value and query for data.
       Save Json response as "Json_name" in the Scenario Scope
+      
+    - Examples:  
+    
+          I query DynamoDB table "Customers" with Primary Key "ID" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
+          I query DynamoDB table "Customers" with Primary Key "<custID>" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
+
+     "custID" has to be saved on the previous steps in the Scenario scope  
 ---
     
 - **I query DynamoDB table "TableName" with Primary Key "PK" value "value" and save result as JSON "Json_name"**
     - Establish connection to DynamoDB using secrets from config.properties file.
       Resolve all placeholder for Primary Key value and query for data.
       Save Json response as "Json_name" in the Scenario Scope
+      
+    - Examples:  
+          
+                I query DynamoDB table "Customers" with Primary Key "<custID>" value "123" and save result as JSON "Customer_1"
+      
+    "custID" has to be saved on the previous steps in the Scenario scope
+    
 ---
     
 - **Saved JSON "Json_name" node "Json_path" contains value "value"**
