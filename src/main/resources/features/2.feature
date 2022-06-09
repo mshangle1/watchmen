@@ -6,8 +6,6 @@ Feature: Second Test Set
 
     Given I want to call API Endpoint "{{deployment_url}}"
     And I provide headers as csv file "data/headers.csv"
-    And I provide body as raw JSON file "data/request.json"
-    And I set JSON body node "field" to ""%randomAlpha(10)%""
     When I send "GET" request
     Then Response has Status code: "200"
     And I store Response header "X-Frame-Options" as "options" in the scenario scope
@@ -15,6 +13,14 @@ Feature: Second Test Set
     And I clear my previous API call
 
     Given I want to call API Endpoint "{{deployment_url}}/<options>"
+    And I provide basePath as "first"
+    And I provide path variables as data Table:
+
+      |path1|v1              |
+      |path2|345             |
+      |path3|accounts        |
+
+    And I provide basePath as "last"
     And I provide headers as csv file "data/headers.csv"
     And I provide headers as data Table:
     |options     |<options>                           |
@@ -29,7 +35,7 @@ Feature: Second Test Set
     |header9     |%randomString(10)%                  |
 
     When I send "GET" request
-    Then Response has Status code: "400"
+    Then Response has Status code: "404"
 
 
 

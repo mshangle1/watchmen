@@ -19,24 +19,13 @@ import com.ally.d3.watchmen.utilities.dataDriven.JsonHelper;
 import com.ally.d3.watchmen.utilities.dataDriven.ReadFile;
 import com.ally.d3.watchmen.utilities.dataDriven.XMLHelper;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.bjansen.ssv.SwaggerValidator;
-import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import io.restassured.module.jsv.JsonSchemaValidationException;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
-import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,15 +59,15 @@ public class ResponseHelper {
     public void validateResponseStatusCode(Integer expectedStatusCode) {
 
         logger.debug("Assert Response status code is: " + expectedStatusCode);
-        Integer actualStatusCode = restAssuredHelper.getStatusCodeFromResponse(testScope.response);
-        Assert.assertTrue("Expected status-code = " + expectedStatusCode + " doesn't match actual status-code = " + actualStatusCode + ". Actual status-line is: " + restAssuredHelper.getStatusLineFromResponse(testScope.response), actualStatusCode.equals(expectedStatusCode));
+        Integer actualStatusCode = restAssuredHelper.getStatusCodeFromResponse(testScope.getResponse());
+        Assert.assertTrue("Expected status-code = " + expectedStatusCode + " doesn't match actual status-code = " + actualStatusCode + ". Actual status-line is: " + restAssuredHelper.getStatusLineFromResponse(testScope.getResponse()), actualStatusCode.equals(expectedStatusCode));
 
     }
 
     public void validateResponseContentType(String expectedContentType) {
 
         logger.debug("Assert Response Content Type is: " + expectedContentType);
-        String actualContentType = restAssuredHelper.getContentTypeFromResponse(testScope.response);
+        String actualContentType = restAssuredHelper.getContentTypeFromResponse(testScope.getResponse());
         Assert.assertTrue("Expected content-type = " + expectedContentType + " doesn't match actual content-type = " + actualContentType, actualContentType.equals(expectedContentType));
 
     }
@@ -101,7 +90,7 @@ public class ResponseHelper {
     public Boolean isResponseCookieExist(String cookie) {
 
         logger.debug("Check if Cookie: " + cookie + " exists");
-        if (restAssuredHelper.getCookiesAsMap(testScope.response).get(cookie) != null) {
+        if (restAssuredHelper.getCookiesAsMap(testScope.getResponse()).get(cookie) != null) {
             logger.debug("Cookie exists");
             return true;
         } else {
@@ -120,7 +109,7 @@ public class ResponseHelper {
         Assert.assertTrue("Response cookie " + cookieName + " was not found ", isResponseCookieExist(cookieName));
 
         //if cookie is present - get its value
-        String actualCookieValue = restAssuredHelper.getCookieValFromResponse(testScope.response, cookieName);
+        String actualCookieValue = restAssuredHelper.getCookieValFromResponse(testScope.getResponse(), cookieName);
         logger.debug("Assert expected cookie " + cookieName + " value match expectedCookeValue ignoring case");
         Assert.assertTrue("cookie: " + cookieName + " does not match expected value. Expected value is: " + expectedCookieValue + " Actual value is: " + actualCookieValue, actualCookieValue.equalsIgnoreCase(expectedCookieValue));
 
@@ -140,7 +129,7 @@ public class ResponseHelper {
         JsonNode responseBodyJson = null;
 
         try {
-            responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+            responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
         }
         catch (RuntimeException e) {
             logger.error("Not able to parse Response as a JSON "+e);
@@ -163,7 +152,7 @@ public class ResponseHelper {
         Document responseBodyXML = null;
 
         try {
-            responseBodyXML = xmlHelper.createDocumentFromString(testScope.response.getBody().asString());
+            responseBodyXML = xmlHelper.createDocumentFromString(testScope.getResponse().getBody().asString());
             logger.debug("Response is recognized as an XML and parsed to org.w3c.dom.Document");
         } catch (RuntimeException e) {
             logger.error("Not able to parse Response as an Xml Document "+e);
@@ -180,7 +169,7 @@ public class ResponseHelper {
 
         logger.debug("Assert Response Matches Schema: " + jsonSchemaFile);
         try {
-            testScope.responseToValidate.assertThat().body(matchesJsonSchemaInClasspath(jsonSchemaFile));
+            testScope.getResponseToValidate().assertThat().body(matchesJsonSchemaInClasspath(jsonSchemaFile));
 
     } catch (Exception exc) {
             if (exc instanceof IllegalArgumentException) {
@@ -202,7 +191,7 @@ public class ResponseHelper {
     public void validateResponseMatchesSchemaSwagger(String swaggerFile, String definitionPointer)  {
 
         logger.debug("Assert Response Matches Swagger: " + swaggerFile+ " definition "+definitionPointer);
-        String jsonResponse = testScope.response.getBody().asString();
+        String jsonResponse = testScope.getResponse().getBody().asString();
 
         ProcessingReport processingReport = jsonHelper.getReportJsonMatchSchemaSwagger(jsonResponse,swaggerFile,definitionPointer);
 
@@ -214,7 +203,7 @@ public class ResponseHelper {
     public void validateResponseMatchesJson(String jsonFile)  {
 
         logger.debug("Assert Response Matches Json: " + jsonFile);
-        String jsonResponse = testScope.response.getBody().asString();
+        String jsonResponse = testScope.getResponse().getBody().asString();
 
         String json2 =readFile.readFileAsString(jsonFile);
         Assert.assertTrue("Response body does not match json file: " + jsonFile+".The difference is: "+ jsonHelper.printJsonDifference(jsonResponse,json2), jsonHelper.isJsonEqualsJson(jsonResponse,json2));
@@ -232,7 +221,7 @@ public class ResponseHelper {
 
         //If node presents
 
-        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
         String actualNodeValue = jsonHelper.getJSONnodeValue(responseBodyJson, node);
         logger.debug("Assert node: " + node + " value matches expected value ignoring case");
         Assert.assertTrue("Response body Node: " + node + " does not match expected value. Expected value is: " + expectedNodeVal + "; Actual value is: " + actualNodeValue, actualNodeValue.equalsIgnoreCase(expectedNodeVal));
@@ -252,7 +241,7 @@ public class ResponseHelper {
 
         //If node presents
 
-        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
         String actualNodeValue = jsonHelper.getJSONnodeValue(responseBodyJson, node);
         ;
         logger.debug("Assert node: " + node + " contains string ignoring case");
@@ -266,7 +255,7 @@ public class ResponseHelper {
         JsonNode responseBodyJson = null;
 
         try {
-            responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+            responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
             testScope.saveInJsonContainer(key,responseBodyJson);
         }
         catch (RuntimeException e) {
@@ -305,13 +294,13 @@ public class ResponseHelper {
     public long getResponseTime() {
 
         logger.debug("Get Response time");
-        return restAssuredHelper.getResponseTime(testScope.response);
+        return restAssuredHelper.getResponseTime(testScope.getResponse());
 
     }
 
     public Boolean isResponseHeaderExist(String expectedHeader) {
         logger.debug("Check if the Response Header: " + expectedHeader + " Exists");
-        if (restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.response).contains(expectedHeader)) {
+        if (restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.getResponse()).contains(expectedHeader)) {
             logger.debug("Header exists");
             return true;
         } else {
@@ -329,7 +318,7 @@ public class ResponseHelper {
         List<String> notFoundList = new ArrayList<String>();
 
         //Get actual response headers
-        List<String> foundList = restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.response);
+        List<String> foundList = restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.getResponse());
 
 
         //Check if all expected headers are presented among actual headers
@@ -385,7 +374,7 @@ public class ResponseHelper {
         List<String> notExpectedList = new ArrayList<String>();
 
         //Get actual response headers
-        List<String> foundList = restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.response);
+        List<String> foundList = restAssuredHelper.getHeadersNamesAsListFromResponse(testScope.getResponse());
 
 
         //Check if all expected headers were found
@@ -420,7 +409,7 @@ public class ResponseHelper {
     public void validateResponseHasNextHeaderName(String headerName) {
 
         logger.debug("Assert Response has header: " + headerName);
-        Assert.assertTrue("Expected Response header: " + headerName + " was not found", restAssuredHelper.isHeaderPresentedOnResponse(testScope.response, headerName));
+        Assert.assertTrue("Expected Response header: " + headerName + " was not found", restAssuredHelper.isHeaderPresentedOnResponse(testScope.getResponse(), headerName));
 
     }
 
@@ -433,7 +422,7 @@ public class ResponseHelper {
         Assert.assertTrue("Response header was not found ", isResponseHeaderExist(headerName));
 
         //if header was found - get its value
-        String actualHeaderValue = restAssuredHelper.getHeaderValueFromResponse(testScope.response, headerName);
+        String actualHeaderValue = restAssuredHelper.getHeaderValueFromResponse(testScope.getResponse(), headerName);
         logger.debug("Assert requested header: " + headerName + " matches expected value ignoring case");
         Assert.assertTrue("Response header " + headerName + " does not match expected value: " + expectedHeaderValue + " Actual value is: " + actualHeaderValue, actualHeaderValue.equalsIgnoreCase(expectedHeaderValue));
 
@@ -451,7 +440,7 @@ public class ResponseHelper {
 
         //if node was found
         logger.debug("Assert expected size of an array node" + node + " equal " + expectedSize);
-        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
         Integer size = jsonHelper.getJSONnodeArraySize(responseBodyJson, node);
         Assert.assertTrue("Expected array size = " + expectedSize + " of a response node: " + node + " doesn't match actual size = " + size, size == expectedSize);
 
@@ -467,7 +456,7 @@ public class ResponseHelper {
 
         //If node found
         logger.debug("Node was found, so retrieve its value");
-        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.response.getBody().asString());
+        JsonNode responseBodyJson = jsonHelper.readJsonAsTree(testScope.getResponse().getBody().asString());
         String nodeValue = jsonHelper.getJSONnodeValue(responseBodyJson, node);
         logger.debug(key + " = " + nodeValue);
         testScope.saveInContainer(key, nodeValue);
@@ -482,7 +471,7 @@ public class ResponseHelper {
 
         logger.debug("Parse Response as Xml Document");
         try {
-            responseBodyXML = xmlHelper.createDocumentFromString(testScope.response.getBody().asString());
+            responseBodyXML = xmlHelper.createDocumentFromString(testScope.getResponse().getBody().asString());
         } catch (RuntimeException e) {
             Assert.assertTrue("Not able to parse Response as an Xml Document", (false));
         }
@@ -514,10 +503,10 @@ public class ResponseHelper {
 
         //First check if header found
         logger.debug("Assert requested header: " + header + " was found");
-        Assert.assertTrue("Response does not have header requested to save: "+header, (restAssuredHelper.isHeaderPresentedOnResponse(testScope.response, header)));
+        Assert.assertTrue("Response does not have header requested to save: "+header, (restAssuredHelper.isHeaderPresentedOnResponse(testScope.getResponse(), header)));
 
         //If header found
-            String headerValue = restAssuredHelper.getHeaderValueFromResponse(testScope.response,header);
+            String headerValue = restAssuredHelper.getHeaderValueFromResponse(testScope.getResponse(),header);
             logger.debug("header " + header + " = " + headerValue);
             testScope.saveInContainer(key, headerValue);
 
@@ -533,7 +522,7 @@ public class ResponseHelper {
         //If cookie found
         String cookieValue;
         logger.debug("Store Value From the Response Cookie: " + cookie + " as: " + key);
-        cookieValue = restAssuredHelper.getCookieValFromResponse(testScope.response, cookie);
+        cookieValue = restAssuredHelper.getCookieValFromResponse(testScope.getResponse(), cookie);
         testScope.saveInContainer(key, cookieValue);
 
     }
