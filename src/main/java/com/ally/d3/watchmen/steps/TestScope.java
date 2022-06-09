@@ -52,10 +52,6 @@ public class TestScope {
 
     public static Map<String, JsonNode> jsonContainer = new HashMap<>();
 
-    //public static JsonNode bodyJsonTree;
-
-   // public static Document bodyXmlDoc;
-
     private static final Logger logger = LoggerFactory.getLogger(TestScope.class);
 
 
