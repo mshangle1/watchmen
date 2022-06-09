@@ -277,16 +277,16 @@
             
            And I set JSON body node to String:
            
-             |customer.firstName      |"Anna"          |
-             |customer.isActive       |true            |
-             |customer.dob            |"%yearsAgo(25)%"|
-             |customer.address.zip    |"<zip>"         |
-             |customer.address.country|"{{country}}"   |
+             |customer.firstName      |""%randomAlpha(20)%"" |
+             |customer.isActive       |true                   |
+             |customer.dob            |"%yearsAgo(25)%"       |
+             |customer.address.zip    |"<zip>"                |
+             |customer.address.country|"{{country}}"          |
          
              
        "country" has to be provided on config.properties or as a runtime variable,
        "zip" has to be saved on the previous steps in the Scenario scope,
-       "yearsAgo(25)" Watchmen will generate on a runtime          
+       "yearsAgo(25)", "randomAlpha(20)" Watchmen will generate on a runtime          
 ---
 
 - **I add JSON node "node_name" to Parent node "parent_JSON_path" as value "value"**
@@ -360,7 +360,7 @@
     - Examples: 
     
     
-            And I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Array node "applicants.get(1).addresses"
+              I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Array node "applicants.get(1).addresses"
 ---
       
 - **I copy JSON tree from "parent.node" and add it under Parent node "new_parent.node" as new node "new_node.name"**
@@ -371,7 +371,7 @@
       - Examples: 
           
           
-          And I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Parent node "applicants.get(1).addresses.get(1)" as new node "Mailing"
+                I copy JSON tree from "applicants.get(1).addresses.get(1)" and add it under Parent node "applicants.get(1).addresses.get(1)" as new node "Mailing"
 ---
        
 - **I set XML body node "Xpath" to "new_value"**
@@ -385,11 +385,11 @@
       
    - Examples:                                                          
                   
-              And I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""%uniqueSSN()%""
-              And I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""<saved_SSN>""
-              And I set XML body node "//CustomerInfo/Party/Contact//PostAddress/AddressLine" to ""Test 1""
-              And I set XML body node "(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4]" to ""Test 2""
-              And I set XML body node "//CustomerInfo/Party/Contact/@Type" to ""{{testType}}""
+              I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""%uniqueSSN()%""
+              I set XML body node "//CustomerInfo/Party/TaxIdentificationNumber" to ""<saved_SSN>""
+              I set XML body node "//CustomerInfo/Party/Contact//PostAddress/AddressLine" to ""Test 1""
+              I set XML body node "(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4]" to ""Test 2""
+              I set XML body node "//CustomerInfo/Party/Contact/@Type" to ""{{testType}}""
                
                    
        "testType" has to be provided on config.properties or as a runtime variable,
@@ -414,10 +414,10 @@
                         
                     I set XML body node to String:
                     
-                       |//CustomerInfo/Party/TaxIdentificationNumber |%uniqueSSN%|
-                       |//CustomerInfo/Party/TaxIdentificationNumber |<saved_SSN>|
-                       |//CustomerInfo/Party/Contact//PostAddress/AddressLine. |"Test 1" |
-                       |(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4] |"Test 2" |
+                       |//CustomerInfo/Party/TaxIdentificationNumber               |%uniqueSSN%|
+                       |//CustomerInfo/Party/TaxIdentificationNumber               |<saved_SSN>|
+                       |//CustomerInfo/Party/Contact//PostAddress/AddressLine.     |"Test 1"   |
+                       |(//CustomerInfo/Party/Contact//PostAddress/AddressLine)[4] |"Test 2"   |
                      
                          
       
@@ -438,8 +438,8 @@
       
    - Examples:     
                                                                
-           And I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""Test""                    
-           And I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""%randomString(10)%""      
+             I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""Test""                    
+             I add XML node "cmn:AddressLine3" to Parent node "(//CustomerInfo/Party/Contact//PostAddress)[2]" as String ""%randomString(10)%""      
                          
                              
      "randomString(10)" Watchmen will generate at a runtime    
@@ -457,8 +457,8 @@
       
    - Examples:     
                                                                      
-                 And I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String "ContactType"                  
-                 And I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String ""%randomString(ABC 567^&*#$%_*&)%""      
+                  I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String "ContactType"                  
+                  I add attribute "newAttr" to XML node "(//CustomerInfo/Party/PersonName/FirstName)[2]" as String ""%randomString(ABC 567^&*#$%_*&)%""      
                                
                                    
            "randomString(10)" Watchmen will generate at a runtime     
@@ -470,7 +470,7 @@
       
     - Examples:     
                 
-                And I remove XML body node "(//CustomerInfo/Party/Contact//PostAddress)[2]"      
+                  I remove XML body node "(//CustomerInfo/Party/Contact//PostAddress)[2]"      
                                           
 ---
       
@@ -481,7 +481,7 @@
       
      - Examples:     
                     
-                  And I remove attribute "Type" from XML body node "(//CustomerInfo/Party/Contact)[2]"      
+                   I remove attribute "Type" from XML body node "(//CustomerInfo/Party/Contact)[2]"      
                              
 ---
       
@@ -704,7 +704,7 @@
       
        - Examples:    
                       
-                   Response body JSON matches JSON file "data/{{env}}/expected_response.json" 
+                 Response body JSON matches JSON file "data/{{env}}/expected_response.json" 
                                 
         "env" has to be provided on config.properties or as a runtime variable 
 ---
@@ -714,8 +714,8 @@
       
     - Examples:    
                       
-                  Response body XML has node: "//Status/Code"
-                  Response body XML has node: "//Status/Code/@Type" 
+               Response body XML has node: "//Status/Code"
+               Response body XML has node: "//Status/Code/@Type" 
                                 
         
 ---    
@@ -727,7 +727,7 @@
       
     - Examples:   
           
-                     Response body XML node equals to val: 
+               Response body XML node equals to val: 
                           |//CustomerStatus/CustomerID/@Type.    |CIF               |
                           |(//CustomerStatus/CustomerID/@Type)[2]|{{expected_type}} |
                           |(//CustomerStatus/CustomerID.         |<custID>          |    
@@ -743,10 +743,10 @@
       
     - Examples:   
                 
-                           Response body XML node contains val: 
-                                |//CustomerStatus/CustomerID/@Type.    |CIF               |
-                                |(//CustomerStatus/CustomerID/@Type)[2]|{{expected_type}} |
-                                |(//CustomerStatus/CustomerID.         |<custID>          |    
+               Response body XML node contains val: 
+                     |//CustomerStatus/CustomerID/@Type.    |CIF               |
+                     |(//CustomerStatus/CustomerID/@Type)[2]|{{expected_type}} |
+                     |(//CustomerStatus/CustomerID.         |<custID>          |    
                                     
        "expected_type" has to be provided on config.properties or as a runtime variable,
        "custID" has to be saved on the previous steps in the Scenario scope,       
@@ -758,7 +758,7 @@
       
     - Examples: 
       
-          I store Response header "Connection" as "Connection" in scenario scope
+              I store Response header "Connection" as "Connection" in scenario scope
                       
 ---
 
@@ -768,7 +768,7 @@
       
     - Examples: 
             
-                I store Cookie "CMSMSESSION" as "CMSMSESSION" in scenario scope
+              I store Cookie "CMSMSESSION" as "CMSMSESSION" in scenario scope
                        
 ---
 
@@ -778,9 +778,9 @@
       
     - Examples: 
                 
-                I store Response body node "method" as "method" in scenario scope
-                I store Response body node "Customers.get(1).SSN" as "SSN" in scenario scope 
-                I store Response body node "Customers.get(firstName=Anna).SSN" as "SSN" in scenario scope 
+               I store Response body node "method" as "method" in scenario scope
+               I store Response body node "Customers.get(1).SSN" as "SSN" in scenario scope 
+               I store Response body node "Customers.get(firstName=Anna).SSN" as "SSN" in scenario scope 
 ---
 
 - **I store XML Response body node "xpath" as "key" in the scenario scope**
@@ -789,8 +789,8 @@
     
     - Examples:
     
-          And I store XML Response body node "//CustomerStatus/CustomerID" as "CustomerID" in scenario scope
-          And I store XML Response body node "(//CustomerStatus/CustomerID/@Type)[1]" as "CustomerID_Type" in scenario scope
+              I store XML Response body node "//CustomerStatus/CustomerID" as "CustomerID" in scenario scope
+              I store XML Response body node "(//CustomerStatus/CustomerID/@Type)[1]" as "CustomerID_Type" in scenario scope
 ---
 
 
@@ -803,8 +803,8 @@
     
     - Examples:
     
-          I establish connection to Data Base "Oracle"
-          I establish connection to Data Base "AuroraDB"
+              I establish connection to Data Base "Oracle"
+              I establish connection to Data Base "AuroraDB"
     
 ---
 
@@ -874,13 +874,13 @@
       
     - Examples:
           
-                    I query for Integer "SELECTCustomeridFROMCustomers WHERE CustomerName=:name" with parameters as Data Table and store result as "Customerid" in scenario scope:
+               I query for Integer "SELECTCustomeridFROMCustomers WHERE CustomerName=:name" with parameters as Data Table and store result as "Customerid" in scenario scope:
                     
                     |name|Anna|
                     
                                                           
                     
-                    I query for Integer "query_CustomerId_ByName.sql" with parameters as Data Table and store result as "Customerid" in scenario scope:
+               I query for Integer "query_CustomerId_ByName.sql" with parameters as Data Table and store result as "Customerid" in scenario scope:
                     
                     |name|Anna|
                           
@@ -897,8 +897,8 @@
       
     - Examples:  
     
-          I query DynamoDB table "Customers" with Primary Key "ID" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
-          I query DynamoDB table "Customers" with Primary Key "<custID>" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
+              I query DynamoDB table "Customers" with Primary Key "ID" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
+              I query DynamoDB table "Customers" with Primary Key "<custID>" value "123" and Secondary Key "Name" value "Anna" and save result as JSON "Customer_1"
 
      "custID" has to be saved on the previous steps in the Scenario scope  
 ---
@@ -922,8 +922,8 @@
    
     - Examples:  
               
-                    Saved JSON "Customer_1" node "name" contains value "Anna"
-                    Saved JSON "Customer_1" node "SSN" contains value "<ssn>"
+                 I assert that saved JSON "Customer_1" node "name" contains value "Anna"
+                 I assert that saved JSON "Customer_1" node "SSN" contains value "<ssn>"
           
      "ssn" has to be saved on the previous steps in the Scenario scope  
       
@@ -935,8 +935,8 @@
       
     - Examples:  
                  
-                    Saved JSON "Customer_1" node "name" equals to value "Anna"
-                    Saved JSON "Customer_1" node "SSN" equals to value "<ssn>"
+                 I assert that saved JSON "Customer_1" node "name" equals to value "Anna"
+                 I assert that saved JSON "Customer_1" node "SSN" equals to value "<ssn>"
              
      "ssn" has to be saved on the previous steps in the Scenario scope    
 ---
@@ -1002,8 +1002,8 @@
       
       - Examples:  
                                    
-                   I assert that numeric "23" is equal to "23.0"
-                   I assert that numeric "<saved_age>" is equal to "18"
+                 I assert that numeric "23" is equal to "23.0"
+                 I assert that numeric "<saved_age>" is equal to "18"
                                            
       "saved_age" has to be saved on the previous steps in the Scenario scope
 ---
@@ -1014,9 +1014,9 @@
       
     - Examples:  
                                        
-                    I assert that numeric "45.5" is bigger than "30"
-                    I assert that numeric "%randomNumber(3)%" is bigger than "<saved_age>"
-                    I assert that numeric "<saved_Age>" is bigger than "25"
+                 I assert that numeric "45.5" is bigger than "30"
+                 I assert that numeric "%randomNumber(3)%" is bigger than "<saved_age>"
+                 I assert that numeric "<saved_Age>" is bigger than "25"
                                                
      "saved_age" has to be saved on the previous steps in the Scenario scope 
      "randomNumber(3)" Watchmen will generate at a runtime
@@ -1029,8 +1029,8 @@
       
     - Examples:  
                                            
-                      I assert that numeric "23" does not equal to "345"                    
-                      I assert that numeric "<price>" does not equal to "{{price}}"
+                I assert that numeric "23" does not equal to "345"                    
+                I assert that numeric "<price>" does not equal to "{{price}}"
                                                    
      "price" has to be saved on the previous steps in the Scenario scope,
      "price" has to be provided on config.properties or as a runtime variable
