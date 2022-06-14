@@ -20,7 +20,6 @@ import com.ally.d3.watchmen.utilities.dataDriven.PlaceholderResolve;
 import com.ally.d3.watchmen.utilities.dataDriven.ReadFile;
 import com.ally.d3.watchmen.utilities.dataDriven.XMLHelper;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.response.ValidatableResponse;
@@ -54,7 +53,6 @@ public class RequestHelper {
     @Autowired
     XMLHelper xmlHelper;
 
-
     @Autowired
     TestScope testScope;
 
@@ -64,36 +62,33 @@ public class RequestHelper {
     @Autowired
     ReadFile readFile;
 
-
     @Autowired
     RestAssuredRequestFilter enableRestAssuredLogs;
 
     //Create request specification: URL, Ally Proxy settings and Ally Proxy Authorization,
     //By default add header with Tester name to all requests for tracing
 
-    public RequestSpecification startBuildingRequestForAPI(String url) {
+    public void startBuildingRequestForAPI(String url) {
 
         //specify requestSpecification
-        return restAssuredHelper.specifyRequestForURL(testScope.requestSpec,url);
-
-
+        testScope.setRequestSpec(restAssuredHelper.specifyRequestForURL(testScope.getRequestSpec(),url));
 
     }
 
     //Add Headers to existing RequestSpecification
 
-    public void addHeadersToRequest( Map<String, String> headers) {
+    public void addHeadersToRequest(Map<String, String> headers) {
 
         logger.debug("Add headers to the RequestSpec");
-        testScope.requestSpec.headers(headers);
+        testScope.setRequestSpec(testScope.getRequestSpec().headers(headers));
 
     }
 
     //Add Form data  to existing RequestSpecification
-    public void addFormDataToRequest( Map<String, String> formData) {
+    public void addFormDataToRequest(Map<String, String> formData) {
 
         logger.debug("Add form data to the RequestSpec");
-        testScope.requestSpec.formParams(formData);
+        testScope.setRequestSpec(testScope.getRequestSpec().formParams(formData));
 
     }
 
@@ -103,7 +98,7 @@ public class RequestHelper {
     public void addCookiesToRequest(Map<String, String> cookies) {
 
         logger.debug("Add cookies to the RequestSpec");
-        testScope.requestSpec.cookies(cookies);
+        testScope.setRequestSpec(testScope.getRequestSpec().cookies(cookies));
 
     }
 
@@ -112,22 +107,22 @@ public class RequestHelper {
     // where "/{id}/{id2}" - requestBasePath
     //and "/123/456" - requestBasePath after replacing key with values
 
-    public void addPathVariablesToRequest( Map<String, String> params) {
+    public void addPathVariablesToRequest(Map<String, String> params) {
 
         //StringBuilder requestBasePath = new StringBuilder();
         //Get all the key from Map params to build requestBasePath
         Set<String> keys = params.keySet();
         for (String k : keys) {
-            testScope.requestBasePath = testScope.requestBasePath.append("/{" + k + "}");
+            testScope.setRequestBasePath(testScope.getRequestBasePath().append("/{" + k + "}"));
         }
 
         //add requestBasePath to URL
         logger.debug("Add requestBasePath to the URL");
-        testScope.requestSpec.basePath(testScope.requestBasePath.toString());
+        testScope.setRequestSpec(testScope.getRequestSpec().basePath(testScope.getRequestBasePath().toString()));
 
         //replace path param keys with path values
         logger.debug("Replace path param keys with path values");
-        testScope.requestSpec.pathParams(params);
+        testScope.setRequestSpec(testScope.getRequestSpec().pathParams(params));
 
     }
 
@@ -135,10 +130,17 @@ public class RequestHelper {
     // URL with query param should look like api.ally.com/com.ally.d3.watchmen.demo/products?id=123
     // where ?id=123 - query parameters
 
-    public void addQueryParamToRequest( Map<String, String> queryParam) {
+    public void addQueryParamToRequest(Map<String, String> queryParam) {
 
-        logger.debug("Add queryParam to the RequestSpec");
-        testScope.requestSpec.queryParams(queryParam);
+        logger.debug("Add queryParams Map to the RequestSpec");
+        testScope.setRequestSpec(testScope.getRequestSpec().queryParams(queryParam));
+
+    }
+
+    public void addQueryParamToRequest(String key, String value) {
+
+        logger.debug("Add queryParams to the RequestSpec");
+        testScope.setRequestSpec(testScope.getRequestSpec().queryParams(key,value));
 
     }
 
@@ -146,16 +148,16 @@ public class RequestHelper {
     // URL with query param should look like api.ally.com/com.ally.d3.watchmen.demo/products?id=123
     // where ?id=123 - query parameters
 
-    public void addBasePathToRequest( String basePathtoAdd) {
+    public void addBasePathToRequest(String basePathtoAdd) {
 
         logger.debug("Add basePath to the RequestSpec");
         if (!basePathtoAdd.startsWith("/")){
-            testScope.requestBasePath = testScope.requestBasePath.append("/"+basePathtoAdd);
+            testScope.setRequestBasePath(testScope.getRequestBasePath().append("/"+basePathtoAdd));
         }
         else {
-            testScope.requestBasePath = testScope.requestBasePath.append(basePathtoAdd);
+            testScope.setRequestBasePath(testScope.getRequestBasePath().append(basePathtoAdd));
         }
-        testScope.requestSpec.basePath(testScope.requestBasePath.toString());
+        testScope.setRequestSpec(testScope.getRequestSpec().basePath(testScope.getRequestBasePath().toString()));
 
     }
 
@@ -165,7 +167,7 @@ public class RequestHelper {
     public void addBodyAsStringToRequest(String body) {
 
         logger.debug("Add String as a body to the RequestSpec");
-        testScope.requestSpec.body(body);
+        testScope.setRequestSpec(testScope.getRequestSpec().body(body));
 
 
     }
@@ -176,16 +178,15 @@ public class RequestHelper {
 
         logger.debug("Convert file to the byte array and provide as a body");
         byte[] fileBytes =  readFile.readFileAsByteArray(file);
-        testScope.requestSpec.body(fileBytes);
+        testScope.setRequestSpec(testScope.getRequestSpec().body(fileBytes));
     }
-
 
 
 
     public void addJSONBodyAsStringToRequest(String body) {
 
         logger.debug("Add String as a body to the RequestSpec ");
-        testScope.requestSpec.body(body);
+        testScope.setRequestSpec(testScope.getRequestSpec().body(body));
 
         //try to save String as a JsonNode in test scope to be able to change it on the next steps
 
@@ -194,7 +195,7 @@ public class RequestHelper {
     public void addXMLBodyAsStringToRequest(String body) {
 
         logger.debug("Add String as body to the RequestSpec ");
-        testScope.requestSpec.body(body);
+        testScope.setRequestSpec(testScope.getRequestSpec().body(body));
 
     }
 
@@ -202,40 +203,34 @@ public class RequestHelper {
     //path should be on format "/node/node"
    public void removeNodeFromJSON(String node) {
 
-
     logger.debug("Remove Node "+node+" from the JSON payloads");
 
     //jsonTree will be automatically updated on TestScope
     //in case of error jsonTree remains the same and step  fail
-       JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+       JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
        jsonHelper.removeNodeFromJSON(requestJsonBody,node);
 
 
     //Set JsonNode Json tree as Request body
     setJsonTreeAsRequestBody(requestJsonBody);
 
-
 }
 
     //Set JSON node to String
     //Set JSON node to String \format {node: <value>}
-    public void setBodyNodeToString( String path, String value) {
+    public void setBodyNodeToString(String path, String value) {
 
         logger.debug("Set JSON body node "+path+" as String "+value);
-
 
         //set Json field with path to new value
         //jsonTree will be automatically updated on TestScope
         //in case of error jsonTree remains the same and step fail
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
         jsonHelper.setJsonNodeToString(requestJsonBody,path,value);
-
-
 
          //Set JsonNode Json tree as Request body
          setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
@@ -247,35 +242,30 @@ public class RequestHelper {
 
         //to set new value as a String format new value should be in format "<value>"
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
         jsonHelper.setJsonNodeToString_StringFormat(requestJsonBody,path,value);
-
 
         //Set JsonNode Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
     //Add JSON node
     //new node will look like  {node: <value>}
-    public void addNodeToJSON( String parentPath, String node, String value) {
-
+    public void addNodeToJSON(String parentPath, String node, String value) {
 
         logger.debug("Add Node to the parent path "+node+" as a String "+value);
-
 
         //set Json field with path to new value
         //jsonTree will be automatically updated on TestScope
         //in case of error jsonTree remains the same and step fail
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
 
         jsonHelper.addNodeToJSON(requestJsonBody,parentPath,node,value);
 
         //Set updated Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
@@ -283,21 +273,18 @@ public class RequestHelper {
     //new node will look like  {node: <value>}
     public void addNodeToArrayJSON(String parentPath, String value) {
 
-
         logger.debug("Add Node to the Array parent "+ parentPath+" as a String "+value);
-
 
         //add new item to the Json array node
         //jsonTree will be automatically updated on TestScope
         //in case of error jsonTree remains the same and step fail
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
 
         jsonHelper.addItemToArrayNode(requestJsonBody,parentPath,value);
 
         //Set updated Json tree as Request body
         setJsonTreeAsRequestBody(requestJsonBody);
-
 
     }
 
@@ -306,14 +293,13 @@ public class RequestHelper {
     //new node will look like  {node: "<value>"}
     public void addNodeToJSON_StringFormat(String parentPath, String node, String value) {
 
-
         logger.debug("Add Node to the parent path "+node+" as a String "+value);
 
         //set Json field with path to new value
         //jsonTree will be automatically updated on TestScope
         //in case of error jsonTree remains the same and step fail
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
 
         jsonHelper.addNodeToJSON_StringFormat(requestJsonBody,parentPath,node,value);
 
@@ -326,10 +312,9 @@ public class RequestHelper {
     //Add as a new node ander newParent
     public void copyNodeAddAsNewNode(String parentPath, String newParentPath, String newNode) {
 
-
         logger.debug("Copy Node "+parentPath+" As New Node "+newNode);
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
 
         JsonNode treeToCopy=jsonHelper.getTreeFromJson(requestJsonBody,parentPath);
         //convert treeToCopy to String format
@@ -338,13 +323,12 @@ public class RequestHelper {
 
     }
 
-    public void copyNodeAddAsArray( String parentPath, String newParentPath) {
-
+    public void copyNodeAddAsArray(String parentPath, String newParentPath) {
 
         logger.debug("Copy Node "+parentPath+" add under Array node "+newParentPath);
 
 
-        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.requestSpec);
+        JsonNode requestJsonBody=getRequestBodyFromSpecAsJson(testScope.getRequestSpec());
         JsonNode treeToCopy=jsonHelper.getTreeFromJson(requestJsonBody,parentPath);
 
         //convert treeToCopy to String format
@@ -358,7 +342,6 @@ public class RequestHelper {
 
     //Set JsonNode Json tree as Request body
     public void setJsonTreeAsRequestBody(JsonNode jsonTree) {
-
 
         logger.debug("Set Json tree as a Request body");
 
@@ -376,10 +359,9 @@ public class RequestHelper {
     //Set XML node to String
     public void setXmlBodyNodeToString(String path, String value) {
 
-
         logger.debug("Set XML body node: "+path+" as a String "+value);
 
-        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
+        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.getRequestSpec());
 
 
         //Dom Document will be automatically updated on TestScope
@@ -394,17 +376,14 @@ public class RequestHelper {
             //add String body to request
 
             addXMLBodyAsStringToRequest( newXmlBodyAsString);
-
     }
 
 
-
     //Add XML node
-    public void addNodeToXml( String parentPath,String node, String value) {
-
+    public void addNodeToXml(String parentPath,String node, String value) {
 
         logger.debug("Add Node to the parent node "+node+", as a String "+value);
-        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
+        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.getRequestSpec());
       try {
           xmlHelper.addXmlNode(requestXMLBody, parentPath, node, value);
       }
@@ -424,11 +403,10 @@ public class RequestHelper {
     }
 
     //Add XML node Attribute
-    public void addNodeAttrToXml( String attr,String node, String value) {
-
+    public void addNodeAttrToXml(String attr,String node, String value) {
 
         logger.debug("Add attribute "+attr+", as a String "+value);
-        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
+        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.getRequestSpec());
 
         try {
             xmlHelper.addXmlNodeAttribute(requestXMLBody, attr, node, value);
@@ -450,13 +428,11 @@ public class RequestHelper {
 
     //remove node from XML body
     //path must be on format "/node/node"
-    public void removeNodeFromXML( String path) {
-
+    public void removeNodeFromXML(String path) {
 
         logger.debug("Remove XML Node " + path + ", from the XML payload");
 
-        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
-
+        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.getRequestSpec());
 
         //in case of error xml remains the same and step  fail
 
@@ -477,14 +453,14 @@ public class RequestHelper {
         addXMLBodyAsStringToRequest(newXmlBodyAsString);
     }
 
+
     //remove node attribute from XML body
     //path must be on format "/node/node"
-    public void removeNodeAttrFromXML( String path, String attr) {
-
+    public void removeNodeAttrFromXML(String path, String attr) {
 
         logger.debug("Remove attribute: "+attr+" from the XML Node " + path);
 
-        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.requestSpec);
+        Document requestXMLBody = getRequestBodyFromSpecAsXMLDoc(testScope.getRequestSpec());
 
         //in case of error xml remains the same and step  fail
 
@@ -507,10 +483,7 @@ public class RequestHelper {
 
 
 
-
-
-
-        //----------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------
     //     Execute request
     //----------------------------------------------------------------------------------------------------------------
 
@@ -539,30 +512,29 @@ public class RequestHelper {
     }
 
 
-    public ValidatableResponse executeRequestToValidate( String requestType) {
+    public ValidatableResponse executeRequestToValidate(String requestType) {
 
         logger.debug("Execute Request: "+requestType+" And Get Response To Validate");
         String requestTypeUpperCase = requestType.toUpperCase();
 
         switch (requestTypeUpperCase) {
             case "GET":
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).get().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).get().then().log().status();
             case "PUT":
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).put().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).put().then().log().status();
             case "POST":
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).post().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).post().then().log().status();
             case "DELETE":
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).delete().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).delete().then().log().status();
             case "PATCH":
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).patch().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).patch().then().log().status();
             default:
-                return given().spec(testScope.requestSpec).filter(enableRestAssuredLogs).get().then().log().status();
+                return given().spec(testScope.getRequestSpec()).filter(enableRestAssuredLogs).get().then().log().status();
 
         }
         }
 
     public Map<String, String> resolveAllPlaceholders (Map<String, String> map ) {
-
 
         logger.debug("Check and replace all {{property_name}} variables with corresponding properties from properties file");
         Map<String, String> newMap1 = placeholderResolve.replacePropertiesOnMap(map);
@@ -637,6 +609,7 @@ public class RequestHelper {
         testScope.saveInJsonContainer(key,getRequestBodyFromSpecAsJson(requestSpec));
     }
 
+
     public Document getRequestBodyFromSpecAsXMLDoc (RequestSpecification requestSpec) {
 
         Document bodyXmlDoc;
@@ -652,12 +625,6 @@ public class RequestHelper {
         return bodyXmlDoc;
 
     }
-
-
-
-
-
-
 }
 
 

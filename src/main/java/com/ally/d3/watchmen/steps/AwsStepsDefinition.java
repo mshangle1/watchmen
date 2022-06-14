@@ -107,14 +107,31 @@ public class AwsStepsDefinition {
 
     }
 
+    @And("^I assert that saved JSON \"(.*)\" node \"(.*)\" equals to value \"(.*)\"$")
+    public void jsonNodeEqualsToVal(String jsonName, String node, String val) {
 
-    @And("^Saved JSON \"(.*)\" node \"(.*)\" contains value \"(.*)\"$")
+        //Resolve placeholders
+        String newVal = requestHelper.resolveAllPlaceholders(val);
+        logger.info("Step: I assert that saved JSON node equals to value "+newVal);
+
+
+        logger.debug("Assert JSON Node: " + node + " Equals to String: " + newVal);
+
+        JsonNode json = testScope.getFromJsonContainer(jsonName);
+
+        String actualNodeValue = jsonHelper.getJSONnodeValue(json, node);
+        Assert.assertTrue("JSON Node: " + node + " does not match expected value. Expected value is: " + newVal + "; Actual value is: " + actualNodeValue, actualNodeValue.equalsIgnoreCase(newVal));
+
+    }
+
+
+    @And("^I assert that saved JSON \"(.*)\" node \"(.*)\" contains value \"(.*)\"$")
     public void jsonNodeContainsVal(String jsonName, String node, String val) {
 
 
         //Resolve placeholders
         String newVal = requestHelper.resolveAllPlaceholders(val).toUpperCase();
-        logger.info("Step: Saved JSON node contains value "+newVal);
+        logger.info("Step: I assert that saved JSON node contains value "+newVal);
 
 
         logger.debug("Assert JSON Node: " + node + " contains String: " + newVal);

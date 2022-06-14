@@ -89,11 +89,6 @@ public class CommonApiStepsDefinition {
     @Value("${useRelaxedHTTPSValidation:false}")
     private boolean useRelaxedHTTPSValidation;
 
-
-
-
-    //inject properties from properties file
-
     @Value("${waitForResponseSeconds:5}")
     private Integer waitForResponseSeconds;
 
@@ -134,12 +129,9 @@ public class CommonApiStepsDefinition {
     }
 
 
-
-
 //--------------------------------------------------------------------------------------------------------
     //Request specification
 //--------------------------------------------------------------------------------------------------------
-
 
     //Start request specification for hardcoded URL
 
@@ -151,9 +143,8 @@ public class CommonApiStepsDefinition {
 
         logger.info("Step: I want to call API Endpoint " + newURL);
         //specify requestSpecification
-        testScope.requestSpec = requestHelper.startBuildingRequestForAPI(newURL);
+        requestHelper.startBuildingRequestForAPI(newURL);
     }
-
 
     @And("^I provide basePath as \"([^\"]*)\"$")
     public void provideBasePathAs(String basePathToAdd) {
@@ -166,6 +157,7 @@ public class CommonApiStepsDefinition {
 
         requestHelper.addBasePathToRequest( newBasePathToAdd);
     }
+
     //Header Authorization = Bearer followed by a space and token
     @And("^I provide my token \"([^\"]*)\" as a Bearer token on Authorization header$")
     public void provideAuthToken(String token) {
@@ -175,7 +167,6 @@ public class CommonApiStepsDefinition {
         String newToken = requestHelper.resolveAllPlaceholdersURL(token);
         authorizationHelper.setAuthorizationHeaderWithBearerToken(newToken);
     }
-
 
     //Header Authorization = "Basic" followed by a space and a base64-encoded string user:password
     @And("^I provide user name \"([^\"]*)\" and password \"([^\"]*)\" as a Basic authentication on Authorization header$")
@@ -218,7 +209,7 @@ public class CommonApiStepsDefinition {
 
         //Resolve placeholders
         Map<String, String> newHeaders = requestHelper.resolveAllPlaceholders(headers);
-        requestHelper.addHeadersToRequest( newHeaders);
+        requestHelper.addHeadersToRequest(newHeaders);
     }
 
 
@@ -233,7 +224,7 @@ public class CommonApiStepsDefinition {
 
         //Resolve placeholders
         Map<String, String> newCookies = requestHelper.resolveAllPlaceholders(cookies);
-        requestHelper.addCookiesToRequest( newCookies);
+        requestHelper.addCookiesToRequest(newCookies);
     }
 
     @And("^I provide cookies as csv file \"([^\"]*)\"$")
@@ -320,7 +311,7 @@ public class CommonApiStepsDefinition {
         Set<String> keys = newNodes.keySet();
         for (String node : keys) {
             String newNodeVal = newNodes.get(node);
-            requestHelper.setBodyNodeToString( node, newNodeVal);
+            requestHelper.setBodyNodeToString(node, newNodeVal);
         }
     }
 
@@ -332,7 +323,7 @@ public class CommonApiStepsDefinition {
 
         //Resolve placeholders
         String newValue = requestHelper.resolveAllPlaceholders(value);
-        requestHelper.addNodeToJSON( parentPath, node, newValue);
+        requestHelper.addNodeToJSON(parentPath, node, newValue);
     }
 
     @And("^I add JSON node \"([^\"]*)\" to Parent node \"([^\"]*)\" with value as raw JSON \"(.*)\"$")
@@ -342,7 +333,7 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         String newJsonFile = requestHelper.resolveAllPlaceholdersURL(jsonFile);
         String newNodeValue = jsonHelper.readJSONPayloadFromFile(newJsonFile);
-        requestHelper.addNodeToJSON( parentPath, node, newNodeValue);
+        requestHelper.addNodeToJSON(parentPath, node, newNodeValue);
     }
 
     @And("^I add new item to JSON Array node \"([^\"]*)\" with value as raw JSON \"(.*)\"$")
@@ -352,7 +343,7 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         String newJsonFile = requestHelper.resolveAllPlaceholdersURL(jsonFile);
         String newNodeValue = jsonHelper.readJSONPayloadFromFile(newJsonFile);
-        requestHelper.addNodeToArrayJSON( parentPath, newNodeValue);
+        requestHelper.addNodeToArrayJSON(parentPath, newNodeValue);
     }
 
 
@@ -375,7 +366,7 @@ public class CommonApiStepsDefinition {
     public void removeNodeFromJSONBody(String path) {
         logger.info("Step: I remove JSON node " + path);
 
-        requestHelper.removeNodeFromJSON( path);
+        requestHelper.removeNodeFromJSON(path);
     }
 
 
@@ -390,7 +381,7 @@ public class CommonApiStepsDefinition {
         //read XML file as String
         String stringBody = readFile.readFileAsString(newFile);
 
-        requestHelper.addXMLBodyAsStringToRequest( stringBody);
+        requestHelper.addXMLBodyAsStringToRequest(stringBody);
     }
 
 
@@ -400,7 +391,7 @@ public class CommonApiStepsDefinition {
 
         //Resolve placeholders
         String newValue = requestHelper.resolveAllPlaceholders(value);
-        requestHelper.setXmlBodyNodeToString( path, newValue);
+        requestHelper.setXmlBodyNodeToString(path, newValue);
     }
 
     @And("^I set XML body node to value:$")
@@ -429,7 +420,7 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         String newValue = requestHelper.resolveAllPlaceholders(value);
 
-        requestHelper.addNodeToXml( parentPath, node, newValue);
+        requestHelper.addNodeToXml(parentPath, node, newValue);
     }
 
     @And("^I add attribute \"([^\"]*)\" to XML node \"([^\"]*)\" with value \"(.*)\"$")
@@ -439,7 +430,7 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         String newValue = requestHelper.resolveAllPlaceholders(value);
 
-        requestHelper.addNodeAttrToXml( attr, node, newValue);
+        requestHelper.addNodeAttrToXml(attr, node, newValue);
     }
 
 
@@ -447,7 +438,7 @@ public class CommonApiStepsDefinition {
     public void removeNodeFromXmlBody(String path) {
         logger.info("Step: I remove XML node " + path);
 
-        requestHelper.removeNodeFromXML( path);
+        requestHelper.removeNodeFromXML(path);
     }
 
     @And("^I remove attribute \"([^\"]*)\" from XML body node \"([^\"]*)\"$")
@@ -515,7 +506,7 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         Map<String, String> newParams = requestHelper.resolveAllPlaceholders(params);
 
-        requestHelper.addQueryParamToRequest( newParams);
+        requestHelper.addQueryParamToRequest(newParams);
     }
 
 
@@ -532,8 +523,7 @@ public class CommonApiStepsDefinition {
 
             String newParamValue = requestHelper.resolveAllPlaceholders(paramValues[i]);
             logger.debug("RequestSpec add queryParam " + key + " = " + newParamValue);
-            testScope.requestSpec.queryParam(key, newParamValue);
-
+            requestHelper.addQueryParamToRequest(key, newParamValue);
         }
     }
 
@@ -549,9 +539,9 @@ public class CommonApiStepsDefinition {
     public void sendRequest(String requestType) {
 
         logger.info("Step: I send " + requestType + " request");
-        testScope.responseToValidate = requestHelper.executeRequestToValidate(requestType);
-        testScope.response = testScope.responseToValidate.extract().response();
-        logger.trace(" \nResponse time: " + restAssuredHelper.getResponseTime(testScope.response)+" milliseconds");
+        testScope.setResponseToValidate(requestHelper.executeRequestToValidate(requestType));
+        testScope.setResponse(testScope.getResponseToValidate().extract().response());
+        logger.trace(" \nResponse time: " + responseHelper.getResponseTime()+" milliseconds");
     }
 
     @When("^I send \"([^\"]*)\" request and wait for the Response: \"([^\"]*)\"$")
@@ -572,12 +562,11 @@ public class CommonApiStepsDefinition {
 
     private Boolean executeRequestValidateStatusCode(String requestType, Integer statusCode) {
 
-        testScope.responseToValidate = requestHelper.executeRequestToValidate(requestType);
-        ResponseOptions<Response> response = testScope.responseToValidate.extract().response();
-        testScope.response = response;
-        logger.debug("Response status code is " + response.getStatusCode());
-        logger.trace(" \nResponse time: " + restAssuredHelper.getResponseTime(testScope.response)+" milliseconds");
-        return response.getStatusCode() == statusCode;
+        testScope.setResponseToValidate(requestHelper.executeRequestToValidate(requestType));
+        testScope.setResponse(testScope.getResponseToValidate().extract().response());
+        logger.debug("Response status code is " + testScope.getResponse().getStatusCode());
+        logger.trace(" \nResponse time: " +responseHelper.getResponseTime()+" milliseconds");
+        return testScope.getResponse().getStatusCode() == statusCode;
     }
 
 
@@ -627,9 +616,8 @@ public class CommonApiStepsDefinition {
     public void responseStructureOfAJSONMatches(String jsonShemaFile)  {
 
         String newJsonShemaFile = requestHelper.resolveAllPlaceholdersURL(jsonShemaFile);
-        //responseHelper.validateResponseMatchesSchema(testScope.response,jsonShemaFile);
         logger.info("Step: Response body JSON matches schema " +  newJsonShemaFile);
-        responseHelper.validateResponseMatchesSchema( newJsonShemaFile);
+        responseHelper.validateResponseMatchesSchema(newJsonShemaFile);
     }
 
 
@@ -638,9 +626,8 @@ public class CommonApiStepsDefinition {
 
 
         String newSwaggerFile = requestHelper.resolveAllPlaceholdersURL(swaggerFile);
-        //responseHelper.validateResponseMatchesSchema(testScope.response,jsonShemaFile);
         logger.info("Step: Response body JSON matches swagger file "+ newSwaggerFile+ " schema " + schemaPointer);
-        responseHelper.validateResponseMatchesSchemaSwagger( newSwaggerFile, schemaPointer);
+        responseHelper.validateResponseMatchesSchemaSwagger(newSwaggerFile, schemaPointer);
     }
 
     @And("^Response body JSON matches JSON file \"([^\"]*)\"$")
@@ -648,8 +635,6 @@ public class CommonApiStepsDefinition {
 
         String newJsonFile = requestHelper.resolveAllPlaceholdersURL(jsonFile);
         logger.info("Step: Response body JSON matches JSON file  " + newJsonFile);
-
-        //responseHelper.validateResponseMatchesSchema(testScope.response,jsonShemaFile);
         responseHelper.validateResponseMatchesJson(newJsonFile);
     }
 
@@ -667,7 +652,7 @@ public class CommonApiStepsDefinition {
         Set<String> keys = newNodes.keySet();
         for (String n : keys) {
             String expectedNodeVal = newNodes.get(n);
-            responseHelper.validateResponseBodyStringNodeEqualToVal( n, expectedNodeVal);
+            responseHelper.validateResponseBodyStringNodeEqualToVal(n, expectedNodeVal);
         }
     }
 
@@ -684,7 +669,7 @@ public class CommonApiStepsDefinition {
         Set<String> keys = newNodes.keySet();
         for (String n : keys) {
             String expectedNodeVal = newNodes.get(n);
-            responseHelper.validateResponseBodyNodeContainsString( n, expectedNodeVal);
+            responseHelper.validateResponseBodyNodeContainsString(n, expectedNodeVal);
         }
     }
 
@@ -722,7 +707,7 @@ public class CommonApiStepsDefinition {
         Set<String> keys = newNodes.keySet();
         for (String n : keys) {
             String expectedVal = newNodes.get(n);
-            responseHelper.validateResponseXmlNodeContainsVal( n, expectedVal);
+            responseHelper.validateResponseXmlNodeContainsVal(n, expectedVal);
         }
     }
 
@@ -821,7 +806,7 @@ public class CommonApiStepsDefinition {
     public void responseHasNextCookie(String cookieName) {
 
         logger.info("Step: Response has cookie with the name " + cookieName);
-        responseHelper.validateResponseHasNextCookie(testScope.response, cookieName);
+        responseHelper.validateResponseHasNextCookie(cookieName);
     }
 
 
@@ -934,8 +919,6 @@ public class CommonApiStepsDefinition {
             finalSql = readFile.readFileAsString(newSql);
         } else finalSql = newSql;
 
-
-
         try {
             Integer sqlResponse = dataBaseHelper.queryForInteger(finalSql);
             testScope.saveInContainer(key, sqlResponse.toString());
@@ -969,7 +952,6 @@ public class CommonApiStepsDefinition {
             Assert.assertTrue("Was NOT able to query for String " + e, (false));
         }
 
-
     }
 
     @And("^I query for Integer \"([^\"]*)\" with parameters as Data Table and store result as \"([^\"]*)\" in the scenario scope:$")
@@ -997,7 +979,6 @@ public class CommonApiStepsDefinition {
             Assert.assertTrue("Was NOT able to query for Integer " + e, (false));
         }
 
-
     }
 
     @And("^Saved JSON \"(.*)\" node \"(.*)\" equals to value \"(.*)\"$")
@@ -1006,8 +987,6 @@ public class CommonApiStepsDefinition {
         //Resolve placeholders
         String newVal = requestHelper.resolveAllPlaceholders(val);
         logger.info("Step: Saved JSON node equals to value "+newVal);
-
-
         logger.debug("Assert JSON Node: " + node + " Equals to String: " + newVal);
 
         JsonNode json = testScope.getFromJsonContainer(jsonName);
@@ -1130,9 +1109,6 @@ public class CommonApiStepsDefinition {
             requestHelper.storeInScenarioScopeMyVal(entry.getKey(), entry.getValue());
 
     }
-
-
-
 }
 
 
