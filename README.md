@@ -9,7 +9,40 @@ Watchmen is an API test automation framework. It provides reusable set of Gherki
 connect to data bases, and more giving you the ability to define test scenarios you want to execute.
 During runtime, Watchmen transforms Gherkin steps into Java code, enabling you to test your API
 
+---
 
+## Watchmen Philosophies   
+ 
+Anybody, who have ever developed a complex microservices applications, or moved a monolith into a microservice architecture, can confirm, that they had to deal with hundreds of small loosely coupled services.
+In result, contract testing, functional testing, integration testing, end-to-end testing in microservices architecture get very complex very fast.
+The more microservices you have, the more tests you need, more brittle and time-consuming it becomes to write, execute and maintain test set. 
+To reduce the cost of API tests creation and maintenance, Watchmen framework was created. 
+
+**The main philosophies of Watchmen is reuse - reuse steps, reuse input data, reuse assertions, reuse team knowledge**.
+
+While the back-end implementation and technology stack for different APIs are very different, API contracts are very similar. 
+The concept of reuse has helped our teams to retrieve testers knowledge from existing tests and reuse it to create abstract Gherkin steps and Java methods. 
+Created from predefined set of steps, Watchmen tests are BDD, code-free and self-expressive. 
+
+Based on our experience, three are 2 main limitations that undermine the viability of test automation: 
+
+ - **Inability to provide valid (text, json, csv etc) inputs for each test execution:**
+ 
+We trigger our tests very often (after every code change) and generating valid test inputs is critical to thoroughly test APIs. 
+For example, we need correct and unique SSN numbers for testing customer creation service, different First names, Last names and DOB for testing search service, 
+unique user name and email for testing enrollment service. Without providing valid and unique values for every test execution, existing tests failing. 
+Asking testers to manually generate these values before each test run defeats the very purpose of automated testing.
+
+- **Inability to write meaningful tests:**
+
+The majority of the existing automated testing tools do not explain the usage of scenarios. In addition they also make debugging complex and ineffective. 
+Developers and testers have a hard time debugging tests whose purpose is unclear. 
+
+With Watchmen framework we were able to overcome all these challenges and make testing simple but highly efficient:
+
+- By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
+- By using Cucumber tool based on Behavior Driven Development, Watchmen tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
+- By providing different types of reports, detailed logs and, in addition, raw request and response pairs, Watchmen makes troubleshooting and debugging easier.
 ---
 ## Features
 
@@ -18,7 +51,7 @@ During runtime, Watchmen transforms Gherkin steps into Java code, enabling you t
       Then you can validate response and retrieve any data from it for the future use
 - **Allowing data driven approach**
     - You can define input data as Cucumber data tables, csv, Json, Xml, txt, yaml files
-- **Authorization**
+- **Making API Authentication an Easy Process**
     - You can implement your own step to request access token and Watchmen will use token as a Bearer token for next requests
     - You can provide User name and Password and Watchmen will use them to generate Basic authorization token for the requests 
 - **Connection to DataBase**
@@ -54,7 +87,7 @@ Watchmen is based on the following:
   - Maven
   - Cucumber-JVM
   - Spring
-  - RestAssured
+  - Rest-assured
   - Jackson
   - AWS SDK
   - Openapitools
@@ -68,7 +101,6 @@ Watchmen is based on the following:
    - Watchmen packaged as a JAR file and stored in Maven Central Repository. Any java development project can use it as a test resource
    - Clone Watchmen example project and add your tests under resources/features
    - You are free to organize your files using regular java package conventions
-   - Configure Cucumber Spring - check cucumber.xml under resources 
    - Add your step definition class if needed and implement your steps
    - Create your scenarios using Watchmen steps. Add tags 
    - Update config.properties with run configurations and runtime data if needed
@@ -93,62 +125,26 @@ Clone Watchmen example project
 
 ## Table of Contents
 
-1. [Watchmen Philosophies](#watchmen-philosophies)
-2. [Watchmen Steps](#watchmen-steps)
-3. [Watchmen Data Management](#watchmen-data-management)
-4. [Watchmen & JSON](#watchmen-and-JSON)
-5. [Watchmen & XML](#watchmen-and-XML)
-6. [Watchmen Placeholders](#watchmen-placeholders)
-7. [Generation Data on Runtime](#generation-data-on-runtime)
-8. [Share State Between Steps](#watchmen-share-state-between-steps)
-9. [Relational Data Base Connection](#relational-Data-Base-connection)
-10. [Non Relational Data Base Connection](#non-Relational-Data-Base-connection)
-11. [Integration with Swagger](#integration-with-swagger)
-12. [Integration with Selenium](#integration-with-selenium)
-13. [Integration with aws](#integration-with-aws)
-14. [Watchmen Proxy](#watchmen-proxy)
-15. [Watchmen Logs](#watchmen-logs)
-16. [Watchmen Reports](#watchmen-reports)
-17. [Watchmen Security](#watchmen-security)
-18. [People](#people)
-19. [License](#License)
+1. [Watchmen Steps](#watchmen-steps)
+2. [Watchmen Data Management](#watchmen-data-management)
+3. [Watchmen & JSON](#watchmen-and-JSON)
+4. [Watchmen & XML](#watchmen-and-XML)
+5. [Watchmen Placeholders](#watchmen-placeholders)
+6. [Generation Data on Runtime](#generation-data-on-runtime)
+7. [Share State Between Steps](#watchmen-share-state-between-steps)
+8. [Relational Data Base Connection](#relational-Data-Base-connection)
+9. [Non Relational Data Base Connection](#non-Relational-Data-Base-connection)
+10. [Integration with Swagger](#integration-with-swagger)
+11. [Integration with Selenium](#integration-with-selenium)
+12. [Integration with aws](#integration-with-aws)
+13. [Watchmen Proxy](#watchmen-proxy)
+14. [Watchmen Logs](#watchmen-logs)
+15. [Watchmen Reports](#watchmen-reports)
+16. [Watchmen Security](#watchmen-security)
+17. [People](#people)
+18. [License](#License)
 
----
 
-## Watchmen Philosophies   
- 
-Anybody, who have ever developed a complex microservices applications, or moved a monolith into a microservice architecture, can confirm, that they had to deal with hundreds of small loosely coupled services.
-In result, contract testing, functional testing, integration testing, end-to-end testing in microservices architecture get very complex very fast.
-The more microservices you have, the more tests you need, more brittle and time-consuming it becomes to write, execute and maintain test set. 
-To reduce the cost of API tests creation and maintenance, Watchmen framework was created. 
-
-**The main philosophies of Watchmen is reuse - reuse steps, reuse input data, reuse assertions, reuse team knowledge**.
-
-While the back-end implementation and technology stack for different APIs are very different, API contracts are very similar. 
-The concept of reuse has helped our teams to retrieve testers knowledge from existing tests and reuse it to create abstract Gherkin steps and Java methods. 
-Created from predefined set of steps, Watchmen tests are BDD, code-free and self-expressive. 
-
-Based on our experience, three are 2 main limitations that undermine the viability of test automation: 
-
- - **Inability to provide valid (text, json, csv etc) inputs for each test execution:**
- 
-We trigger our tests very often (after every code change) and generating valid test inputs is critical to thoroughly test APIs. 
-For example, we need correct and unique SSN numbers for testing customer creation service, different First names, Last names and DOB for testing search service, 
-unique user name and email for testing enrollment service. Without providing valid and unique values for every test execution, existing tests failing. 
-Asking testers to manually generate these values before each test run defeats the very purpose of automated testing.
-
-- **Inability to write meaningful tests:**
-
-The majority of the existing automated testing tools do not explain the usage of scenarios. In addition they also make debugging complex and ineffective. 
-Developers and testers have a hard time debugging tests whose purpose is unclear. 
-
-With Watchmen framework we were able to overcome all these challenges and make testing simple but highly efficient:
-
-- By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
-- By using Cucumber tool based on Behavior Driven Development, Watchmen tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
-- By providing different types of reports, detailed logs and, in addition, raw request and response pairs, Watchmen makes troubleshooting and debugging easier.
-
----
 
 ## Watchmen Steps
 

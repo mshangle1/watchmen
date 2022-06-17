@@ -7,7 +7,7 @@
 
 ## Example Project 
 
- - Please clone example project 
+ - Please clone example project where we show how fast and easy you can test CoinBase public APIs  
 
 ------
 
@@ -20,9 +20,11 @@
          <dependency>
              <groupId>io.github.ally-financial</groupId>
              <artifactId>watchmen</artifactId>
-             <version>1.0.0-RELEASE</version>
+             <version>1.0.0-SNAPSHOT</version>
          </dependency>
-         
+        
+        Note:  1.0.0-RELEASE coming soon 
+        
  - To register and inject project's properties Watchmen uses Spring framework, check SpringConfig.java
  - To configure Spring to use property file you need to update class SpringConfig.java:
         
@@ -40,12 +42,11 @@
 
  - Testing scenarios are created by steps in Gherkin 
  - The glue between Gherkin and the system under test are implemented as regular Java methods and implemented in regular Java classes.
- - To simplify implementation of steps definition used many open source Java libraries, such as  "rest-assured", "jackson" "springframework", "openapitools", "amazonaws" and many others.
  - Dependency injection implemented using Spring.
  - Cucumber JVM integrated with Spring.
  - To run Cucumber feature files Watchmen uses JUnit runner.
  - For reports Cucumber generates reports in the form of HTML, XML, JSON & TXT
- - Watchmen also provides Cluecumber reports and detailed logs
+ - Watchmen also provides Cluecumber reports and detailed logs.
 
 ---
 
@@ -93,7 +94,7 @@ Here’s the example of the feature file:
  - It should be called something like <StepsDefinition>.java and be added under src/java/com/demo/steps/
 ---
 
-## Managing Dependency between steps
+## Managing Dependency Between Steps
 
 
  - A scenario in Gherkin is created by steps. Each step depends on previous steps result. This means that we must be able to share state between steps. 
@@ -188,19 +189,6 @@ Example of Watchmen logs for request-response:
 
 ---
 
-## Project Structure
-
- - To register and inject project's properties Watchmen uses Spring framework
-
-
- - To configure Spring to use property file you need to update class called \<SpringConfig\>.java  in src/main/java/com/ally/d3/watchmen/config: 
-
-@PropertySource("config.properties")
-
-
----
-
-
 ## How to Try This Project
 
 
@@ -231,15 +219,11 @@ Example of Watchmen logs for request-response:
           
           waitForResponseSeconds=10
  
- 
-       # Deployment URL or other endpoints
-
-          deployment_url=https://...
           
           
  - To execute demo scenarios run command:        
        
-          mvn test  -Dtest=TestRunnerTemplate 
+          mvn test  -Dtest=CoinBaseTestsRunner
        
        
 **This is it. Now your are ready to start testing your API**
