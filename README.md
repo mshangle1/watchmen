@@ -18,7 +18,7 @@ In result, contract testing, functional testing, integration testing, end-to-end
 The more microservices you have, the more tests you need, more brittle and time-consuming it becomes to write, execute and maintain test set. 
 To reduce the cost of API tests creation and maintenance, Watchmen framework was created. 
 
-**The main philosophies of Watchmen is reuse - reuse steps, reuse input data, reuse assertions, reuse team knowledge**.
+**The main philosophy of Watchmen is reuse - reuse steps, reuse input data, reuse assertions, reuse team knowledge**.
 
 While the back-end implementation and technology stack for different APIs are very different, API contracts are very similar. 
 The concept of reuse has helped our teams to retrieve testers knowledge from existing tests and reuse it to create abstract Gherkin steps and Java methods. 
@@ -43,6 +43,16 @@ With Watchmen framework we were able to overcome all these challenges and make t
 - By reusing steps, test inputs, assertions and also by mining test data on runtime, Watchmen helps us to achieve high test coverage with reducing test creation time by 90% and almost zero test maintenance.
 - By using Cucumber tool based on Behavior Driven Development, Watchmen tests can be read like a story. People who can't read code are able to see description about system behavior and test coverage without any additional documentation. 
 - By providing different types of reports, detailed logs and, in addition, raw request and response pairs, Watchmen makes troubleshooting and debugging easier.
+
+**The second principe of Watchmen is flexibility**.
+
+- Wathchmen does not dictate how your API have to be implemented, what is your input data format and how you manage your CI/CD pipeline.
+- With Watchmen you can configure your request, send it and receive a response for any API type: Rest, Soap, GraphQL etc.
+- With Watchmen you can provide test data in any format and in any combination.
+- With Watchmen you can trigger test execution locally or using any CI/CD tool.
+- With Watchmen you can extend functionality adding any new steps or capabilities.
+
+
 ---
 ## Features
 
