@@ -160,6 +160,9 @@ Clone Watchmen example project
 
 **All Watchmen steps and algorithms please see on WATCHMEN_STEPS.md**
 
+- If needed, you can add your own steps definition. In order to do so you have to create new Java StepDefinition class and provide it as a glue in TestRunner class. 
+- You can implement new steps from scratch, or you can reuse existing Watchmen steps or Watchmen Java Helper methods. 
+
 ---
 ## Watchmen Data Management
 - Data-Driven Testing using Gherkin syntax for Scenario
