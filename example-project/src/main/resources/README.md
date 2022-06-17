@@ -2,7 +2,7 @@
 
 
 
-### Execute demo tests for open public API CoinBase "Currency codes and names"
+### Execute demo tests for open public CoinBase APIs 
 
 
 
