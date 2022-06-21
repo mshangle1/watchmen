@@ -1,4 +1,4 @@
-@CoinBase
+@coinBase
 Feature: CoinBase Currency
 
   Scenario: Get Currency codes and names

@@ -1,3 +1,4 @@
+@xml
 Feature: How to modify xml on run time
 
 
@@ -10,7 +11,7 @@ Feature: How to modify xml on run time
     # Please note that data/payloads/demo.xml remains the same - all modification happens on runtime only
 
 
-    And   I want to call API Endpoint "{{demo}}"
+    And   I want to call API Endpoint "{{demoURL}}"
     And   I provide headers as data Table:
        | Content-Type | text/xml;charset=UTF-8            |
        | SOAPAction   | "http://ally.com/ws/AddCustomers" |
@@ -21,6 +22,6 @@ Feature: How to modify xml on run time
     And  I remove XML body node "(//CustomerInfo/Party/Contact)[2]"
     And  I remove XML body node "//CustomerInfo/Party/PersonName/NameSuffix"
     And  I remove XML body node "//CustomerInfo/Party/MothersMaidenName"
-    When I send "GET" request
-    Then Response has Status code: "404"
+    When I send "POST" request
+    Then Response has Status code: "405"
 

@@ -1,17 +1,21 @@
+@auth
 Feature: How to authenticate request
 
- # Please note, it is just an example scenario, the execution will fail
+ # Please note, it is just example scenarios, the execution will fail
+ # To fix scenario you need to implement your own step to request access token
 
 #-------------------------------------------------------------------------------------------
 
   Scenario: 1. Successfully authenticate request using Bearer token and new implemented step
 
-          # Expected: consumer_key, consumer_secret and oauth_URL are provided on the config.properties
-          # New step "I requested an access_token" is implemented under steps/Authentication
-          # New step "I requested an access_token" requests access_token from oauth_URL and store token as "access_token" in the Scenario scope
+          # Expected: demoURL, consumer_key, consumer_secret and oauth_URL are provided on the config.properties
+          # Example step "I requested an access_token" is implemented under steps/Authentication
+          # Step "I requested an access_token" requests access_token from oauth_URL and store token as "access_token" in the Scenario scope
+          # Please note, it is just an example scenario, the execution will fail
+          # To fix scenario you need to implement your own step to request access token
 
     Given I requested an access_token
-    And   I want to call API Endpoint "{{demo}}"
+    And   I want to call API Endpoint "{{demoURL}}"
     And   I provide my token "<access_token>" as a Bearer token on Authorization header
     And   I provide headers as data Table:
 
@@ -25,9 +29,10 @@ Feature: How to authenticate request
 
   Scenario: 2. Successfully authenticate request using Basic Auth
 
-          # Expected: user and pwd are provided on the config.properties
+          # Expected: demoURL, user and pwd are provided on the config.properties
+          # Please note, it is a real scenario, the execution will get passed
 
-    And   I want to call API Endpoint "{{demo}}"
+    And   I want to call API Endpoint "{{demoURL}}"
     And   I provide user name "{{user}}" and password "{{pwd}}" as a Basic authentication on Authorization header
     And   I provide headers as data Table:
 
