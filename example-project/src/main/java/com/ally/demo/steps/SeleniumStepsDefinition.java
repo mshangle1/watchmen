@@ -26,9 +26,8 @@ public class SeleniumStepsDefinition {
     @Autowired
     RequestHelper requestHelper;
 
-    @Value("${outlookUrl}")
+    @Value("${outlookURL}")
     private String outlookUrl;
-
 
 
     @Given("^I open Web Page \"([^\"]*)\"$")
@@ -96,7 +95,6 @@ public class SeleniumStepsDefinition {
     }
 
 
-
     @And("^I navigate to the element by Id \"([^\"]*)\" and click on it$")
     public void navigateElementByIdClick(String id) {
         logger.info("I navigate to the element " + id + " by Id and click on it");
@@ -119,3 +117,4 @@ public class SeleniumStepsDefinition {
 
 
     }
+}
