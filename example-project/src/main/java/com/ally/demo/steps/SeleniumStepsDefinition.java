@@ -117,4 +117,102 @@ public class SeleniumStepsDefinition {
 
 
     }
+    @And("^I navigate to the element by Xpath \"([^\"]*)\" and double click on it$")
+    public void navigateElementByXpathDoubleClick(String xpath) {
+        logger.info("I navigate to the element " + xpath + " by Id and click on it");
+
+
+        Assert.assertTrue("Was not able to click on the element with xpath " + xpath, (seleniumHelper.getElementByXpathDoubleClick(xpath)));
+    }
+
+
+    @And("^I navigate to the element by Xpath \"([^\"]*)\" and enter text \"([^\"]*)\"$")
+    public void navigateElementByXpathEnterText(String xpath, String text) {
+        logger.info("Step: I navigate to the element by Xpath "+xpath+" and enter text " +text);
+
+
+        Assert.assertTrue("Was not able to enter text to the element with xpath " + xpath, (seleniumHelper.getElementByXpathEnterText(xpath, text)));
+    }
+
+    @And("^I navigate to the element by Id \"([^\"]*)\" and enter text \"([^\"]*)\"$")
+    public void navigateElementByIdEnterText(String id, String text) {
+        logger.info("Step: I navigate to the element by Id "+id+" and enter text " +text);
+
+
+        Assert.assertTrue("Was not able to enter text to the element with Id " + id, (seleniumHelper.getElementByIdEnterText(id, text)));
+    }
+
+
+    @And("^I open Outlook mailbox using user \"([^\"]*)\" and password \"([^\"]*)\" and navigate to the latest email$")
+    public void openOutlookMailboxUsingUserAndPasswordAndNavigateToTheLatestEmail(String outlookUser, String outlookPassword) {
+        logger.info("Step: I open Outlook mailbox using user "+outlookUser+" and password "+outlookPassword+" and navigate to the latest email");
+        // Given I open Web Page "https://outlook.live.com/owa/"
+        //    Then I navigate to the element "//*[contains(@data-task,'signin')]" by Xpath and click on it
+        //    Then I navigate to the element "//*[contains(@name,'loginfmt')]" by Xpath and enter text "x43.test@outlook.com"
+        //    Then I navigate to the element "idSIButton9" by Id and click on it
+        //    Then I wait for 2 seconds
+        //    Then I navigate to the element "//*[contains(@name,'passwd')]" by Xpath and enter text "Ally123@"
+        //    Then I wait for 2 seconds
+        //    Then I navigate to the element "idSIButton9" by Id and click on it
+        //    Then I wait for 2 seconds
+        //    Then I navigate to the element "idBtn_Back" by Id and click on it
+        //    Then I wait for 5 seconds
+        //    Then I navigate to the element "//*[contains(@class,'customScrollBar')]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]" by Xpath and click on it
+        //    Then I wait for 5 seconds
+        //    #Then I navigate to the element "//*[contains(@class,'customScrollBar')]/child::input[1]" by Xpath and double click on it
+        //   # Then I wait for 5 seconds
+
+        String newOutlookUser = requestHelper.resolveAllPlaceholders(outlookUser);
+        String newOutlookPassword = requestHelper.resolveAllPlaceholders(outlookPassword);
+
+        String signInButton = "//*[contains(@data-task,'signin')]";
+        String loginUserTextBox = "//*[contains(@name,'loginfmt')]";
+        String submitButton = "idSIButton9";
+        String loginPwdTextBox = "//*[contains(@name,'passwd')]";
+        String submitButton2 = "idSIButton9";
+        String latestEmail = "//*[contains(@class,'customScrollBar')]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]";
+
+        openWebPage(outlookUrl);
+        if (seleniumHelper.isElementExistsByXpath(signInButton)) {
+            navigateElementByXpathClick(signInButton);
+            watchmen.waitForSeconds(4);
+            navigateElementByXpathEnterText(loginUserTextBox, newOutlookUser);
+            watchmen.waitForSeconds(4);
+            navigateElementByIdClick(submitButton);
+            watchmen.waitForSeconds(4);
+            navigateElementByXpathEnterText(loginPwdTextBox, newOutlookPassword);
+            watchmen.waitForSeconds(4);
+            navigateElementByIdClick(submitButton);
+            watchmen.waitForSeconds(4);
+            navigateElementByIdClick(submitButton2);
+            watchmen.waitForSeconds(4);
+        }
+        navigateElementByXpathClick(latestEmail);
+        watchmen.waitForSeconds(10);
+
+
+    }
+
+    @Then("^I sign out from Outlook$")
+    public void closeBrowser() {
+        logger.info("Step: I sign out from Outlook");
+        navigateElementByXpathClick("//*[contains(@class,'mectrl_profilepic mectrl_profilepic_initials')]");
+        navigateElementByIdClick("mectrl_body_signOut");
+    }
+
+    @Then("^I navigate to latest email$")
+    public void latestEmail() {
+        logger.info("Step: I navigate to latest email");
+        navigateElementByXpathClick("//*[contains(@class,'customScrollBar')]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]//child::div[1]");
+
+    }
+
+    @Then("^I clean up cookies$")
+    public void deleteCookies() {
+        logger.info("Step: I clean up cookies");
+        driver.manage().deleteAllCookies();
+    }
+
+
+
 }
