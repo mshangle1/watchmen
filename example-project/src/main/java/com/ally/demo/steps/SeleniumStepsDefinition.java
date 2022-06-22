@@ -26,6 +26,9 @@ public class SeleniumStepsDefinition {
     @Autowired
     RequestHelper requestHelper;
 
+    @Autowired
+    WebDriver driver;
+
     @Value("${outlookURL}")
     private String outlookUrl;
 
@@ -117,14 +120,6 @@ public class SeleniumStepsDefinition {
 
 
     }
-    @And("^I navigate to the element by Xpath \"([^\"]*)\" and double click on it$")
-    public void navigateElementByXpathDoubleClick(String xpath) {
-        logger.info("I navigate to the element " + xpath + " by Id and click on it");
-
-
-        Assert.assertTrue("Was not able to click on the element with xpath " + xpath, (seleniumHelper.getElementByXpathDoubleClick(xpath)));
-    }
-
 
     @And("^I navigate to the element by Xpath \"([^\"]*)\" and enter text \"([^\"]*)\"$")
     public void navigateElementByXpathEnterText(String xpath, String text) {
